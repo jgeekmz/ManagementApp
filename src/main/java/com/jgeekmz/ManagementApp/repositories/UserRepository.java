@@ -7,14 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.swing.text.html.Option;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    Optional<User> findByUsername(String username);
+    <Optional> User findByUsername(String username);
 
     User findByPassword(String password);
 
@@ -29,9 +27,16 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "select * from user e where e.enabled = false", nativeQuery = true)
     List<User> findByEnabledFalse(Boolean enabled);
 
+    final String countByID = "SELECT COUNT(ra) FROM User ra WHERE ra.enabled=false";
+
+    @Query(value = countByID)
+    Integer countByID (Long id);
+
     @Modifying
     @Query(value="update User u set u.enabled = :enabled where u.id = :id")
     void activateUser (@Param(value = "id") Integer id, @Param(value = "enabled") Boolean enabled);
 
+    //Reset Password by email
+    User findByResetPasswordToken(String token);
 
 }

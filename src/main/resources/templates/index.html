@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
 
 <head>
   <meta charset="utf-8">
@@ -305,6 +305,7 @@
               <span>Dashboard</span>
             </a>
           </li>
+
           <li class="sub-menu">
             <a href="javascript:;" class="">
               <i class="fa fa-car"></i>
@@ -318,6 +319,7 @@
               <li><a class="" th:href="@{/vehicleHires}">Hires</a></li>
             </ul>
           </li>
+
           <li class="sub-menu">
             <a href="javascript:;" class="">
               <i class="icon_cogs"></i>
@@ -381,16 +383,26 @@
             </ul>
           </li>
 
-          <li class="sub-menu">
+          <!--<div sec:authorize="hasRole('ADMIN')">
+            Content for administrators
+          </div>
+
+          <div> Roles: <span sec:authentication="principal.authorities">ROLE_USER, ROLE_ADMIN</span></div>
+
+          <div sec:authorize="hasRole('USER')">
+            Content for users
+          </div>-->
+
+          <li class="sub-menu" sec:authorize="hasRole('ADMIN')" >
             <a href="javascript:;" class="">
               <i class="icon_book"></i>
-              <span>Users</span>
+              <span  >Users</span>
               <span class="menu-arrow arrow_carrot-right"></span>
             </a>
-            <ul class="sub">
+            <ul class="sub" >
               <li><a class="" th:href="@{/users}">Registered Users</a></li>
               <li><a class="" th:href="@{/activations}">User Activation</a></li>
-              <li><a class="" th:href="@{/blank}">Users Reports</a></li>
+              <li><a class="" th:href="@{/usersReports}">Users Reports</a></li>
             </ul>
           </li>
 
@@ -462,13 +474,26 @@
           </div>
           <!--/.col-->
 
-          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" sec:authorize="hasRole('ADMIN')">
             <div class="info-box brown-bg">
-              <i class="fa fa-location-arrow"></i>
+              <i class="fa fa-user"></i>
               <div class="count">
                 <p th:text="${tusers}"></p>
               </div>
               <div class="title">Users</div>
+            </div>
+            <!--/.info-box-->
+          </div>
+          <!--/.col-->
+
+          <!-- Users for activation -->
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" sec:authorize="hasRole('ADMIN')">
+            <div class="info-box brown-bg">
+              <i class="fa fa-user"></i>
+              <div class="count">
+                <p th:text="${tactiveUsers}"></p>
+              </div>
+              <div class="title"><a th:href="@{/activations}">Active Users</a></div>
             </div>
             <!--/.info-box-->
           </div>
@@ -960,7 +985,7 @@
                         </div>
                       </div>
 
-                      <!-- Cateogry -->
+                      <!-- Category -->
                       <div class="form-group">
                         <label class="control-label col-lg-2">Category</label>
                         <div class="col-lg-10">

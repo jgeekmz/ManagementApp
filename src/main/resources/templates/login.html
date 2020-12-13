@@ -41,11 +41,11 @@
 
       <div class="input-group">
         <span class="input-group-addon"><i class="icon_profile"></i></span>
-        <input type="text" class="form-control" placeholder="Username" id="username" name="username" autofocus>
+        <input type="text" class="form-control" placeholder="Username" id="username" name="username" autofocus required>
       </div>
       <div class="input-group">
         <span class="input-group-addon"><i class="icon_key_alt"></i></span>
-        <input type="password" class="form-control" placeholder="Password" id="password" name="password" autocomplete="off">
+        <input type="password" class="form-control" placeholder="Password" id="password" name="password" autocomplete="off" required>
       </div>
       <div class="input-group">
         <input type="checkbox" class="form-control"  id="remember-me" name="remember-me" autocomplete="off">
@@ -53,7 +53,7 @@
       </div>
 
      <!-- <span class="pull-right"><input type="checkbox" value="lsRememberMe" id="remember-me" name="remember-me"> Remember me </span>-->
-      <span class="pull-left"><a th:href="@{/resetPassword}">Forgot Password?</a></span>
+      <span class="pull-left"><a th:href="@{/resetPassword}">Forgot Your Password?</a></span>
 
         <input class="btn btn-info btn-sm btn-block" type="submit" value="Login">
         <a th:href="@{/registerPage}" class="btn btn-info btn-sm btn-block">Sign Up as User</a>

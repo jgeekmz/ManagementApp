@@ -38,7 +38,7 @@ public class RegisterController {
         this.notificationService = notificationService;
     }
 
-    // Return registration form template
+    //Return registration form template
     @RequestMapping(value="/registerPage", method = RequestMethod.GET)
     public ModelAndView showRegistrationPage(ModelAndView modelAndView, User user){
         modelAndView.addObject("user", user);
@@ -58,7 +58,7 @@ public class RegisterController {
 
         // Lookup user in database by e-mail & username
         User userExists = userService.findByEmail(email);
-        Optional<User> userName = userService.findByUsername(name);
+        Optional<User> userName = Optional.ofNullable(userService.findByUsername(name));
 
         System.out.println("Check by email for existence >> " + userExists);
         System.out.println("Check by username >> "+ userName);
@@ -157,7 +157,7 @@ public class RegisterController {
         //User Admin needs to activate the user manually
         //user.setEnabled(false);
 
-        user.setRoles("ROLE_USER");
+        user.setRoles("USER");
 
         // Save user
         userService.saveUser(user);
@@ -179,7 +179,7 @@ public class RegisterController {
 
         // Lookup admin in database by e-mail & username
         User userExists = userService.findByEmail(email);
-        Optional<User> userName = userService.findByUsername(name);
+        Optional<User> userName = Optional.ofNullable(userService.findByUsername(name));
 
         System.out.println("Check by email for existence >> " + userExists);
         System.out.println("Check by username >> "+ userName);

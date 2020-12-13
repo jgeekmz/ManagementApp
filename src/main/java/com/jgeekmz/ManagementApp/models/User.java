@@ -14,13 +14,15 @@ import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.Transient;
 
+import java.io.Serializable;
+
 @Entity
 @Data
 @Table(name="user")
 //NoArgsConstructor
 //@AllArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class User<userRole> {
+public class User {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -59,14 +61,19 @@ public class User<userRole> {
     @Column(name = "confirmation_token")
     private String confirmationToken;
 
-    @Column(name="roles")
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
+
     private String roles;
 
-    @NonNull
-    public User() {
-    }
+    public String getRoles() { return roles; }
 
-    public User(int id, @NotEmpty(message = "Firstname should not be empty") String firstname, String lastname, String username, String password, String email, boolean enabled, boolean banned, String confirmationToken, String userRole) {
+    public void setRoles(String roles) { this.roles = roles; }
+
+    @NonNull
+    public User() { }
+
+    public User(int id, @NotEmpty(message = "Firstname should not be empty") String firstname, String lastname, String username, String password, String email, boolean enabled, boolean banned, String confirmationToken) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -76,7 +83,6 @@ public class User<userRole> {
         this.enabled = enabled;
         this.banned = banned;
         this.confirmationToken = confirmationToken;
-        this.roles = roles;
     }
 
     @Override
@@ -90,8 +96,7 @@ public class User<userRole> {
                 ", email='" + email + '\'' +
                 ", enabled=" + enabled +
                 ", banned=" + banned +
-                ", confirmationToken='" + confirmationToken + '\'' +
-                ", roles='" + roles + '\'' +
+                ", confirmationToken='" + confirmationToken + '\''+
                 '}';
     }
 
@@ -162,8 +167,16 @@ public class User<userRole> {
         this.confirmationToken = confirmationToken;
     }
 
-    public String getRoles() { return roles; }
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
 
-    public void setRoles(String roles) { this.roles = roles; }
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
+    }
+
+    public boolean isPresent() {
+        return true;
+    }
 
 }

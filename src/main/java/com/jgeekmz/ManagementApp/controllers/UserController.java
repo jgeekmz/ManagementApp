@@ -39,6 +39,7 @@ public class UserController {
     public String findAll(Model model) {
         List<User> userList = userService.findAll();
         model.addAttribute("users", userList);
+        System.out.println("HERE!");
         return "user";
     }
 
@@ -83,7 +84,6 @@ public class UserController {
                 log.error("User don't exist! Username is available!!!");
                 userService.saveUser(user);
 
-                //
                 // sent email notification to admin for the newly registered user to the platform
                 try {
                     notificationService.sentNotification(user);
@@ -105,7 +105,6 @@ public class UserController {
     @RequestMapping(value = "/login/checkUser", method = RequestMethod.POST)
     @ResponseBody
     public RedirectView checkUser(@ModelAttribute("user") User user, RedirectAttributes redir) {
-
         RedirectView redirectView = new RedirectView("/login", true);
         RedirectView redirectViewTwo = new RedirectView("/index", true);
         redir.addFlashAttribute("messageUserNotExist", "User is not being registered!");
@@ -139,13 +138,10 @@ public class UserController {
     @RequestMapping(value="users/updateUserPassword", method = {RequestMethod.PUT, RequestMethod.GET})
     public String updatePassword(User user) {
         //method for updating the password with modal form admin portal
-
         // coke
         String v1 = "$2a$10$EXTfAbGlQ75pWs7E02gAGuWjMTYliIqpGqvLgMYhbvmaXlCvisb8a";
-
         // java
         String v2 = "$2a$10$qbis0aLF3pBjwGKhOIH9RuzJpK/37zoTCsPzO5pCh9Kl49NqatV0G";
-
         String v3 = "java";
 
         boolean result = encoder.matches(v3, v2);
@@ -159,20 +155,13 @@ public class UserController {
     //Return all not active users
     @GetMapping("/activations")
     public String activate(Model model, Boolean enabled, Principal principal){
-       //Enabled == false
+
+        //Enabled == false
         System.out.println("Activations!");
         log.info("Logged in user >>>>>" + principal.getName());
+
         model.addAttribute("users",userService.findByValidFalse(enabled));
         return "activation";
     }
-
-/*    @RequestMapping(value="/users/activate/{id}",method = {RequestMethod.PUT,RequestMethod.GET})
-    //@ResponseBody
-    public String activateUser(Integer id) {
-        Optional<User> user = userService.findById(id);
-        log.info("User found >>>" + user);
-        userService.save(user);
-        return "activation";
-    }*/
 
 }

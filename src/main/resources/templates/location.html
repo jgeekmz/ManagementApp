@@ -410,7 +410,7 @@
           <div class="col-lg-12">
             <h3 class="page-header"><i class="fa fa fa-bars"></i> Pages</h3>
             <ol class="breadcrumb">
-              <li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
+              <li><i class="fa fa-home"></i><a th:href="@{/index}">Home</a></li>
               <li><i class="fa fa-bars"></i>Pages</li>
               <li><i class="fa fa-square-o"></i>Pages</li>
             </ol>
@@ -498,7 +498,7 @@
                               <option>-SELECT-</option>
                               <option th:each="country : ${countries}"
                                       th:value="${country.id}"
-                                      th:text="${country.description}">
+                                      th:text="${country.countryName}">
                               </option>
                           </select>
                       </div>
@@ -509,7 +509,7 @@
                               <option>-SELECT-</option>
                               <option th:each="state : ${states}"
                                       th:value="${state.id}"
-                                      th:text="${state.name}">
+                                      th:text="${state.city}">
                               </option>
                           </select>
                       </div>
@@ -567,7 +567,7 @@
                               <option>-SELECT-</option>
                               <option th:each="country : ${countries}"
                                       th:value="${country.id}"
-                                      th:text="${country.description}">
+                                      th:text="${country.countryName}">
                               </option>
                           </select>
                       </div>
@@ -578,7 +578,7 @@
                               <option>-SELECT-</option>
                               <option th:each="state : ${states}"
                                       th:value="${state.id}"
-                                      th:text="${state.name}">
+                                      th:text="${state.city}">
                               </option>
                           </select>
                       </div>
@@ -635,7 +635,7 @@
                               <option>-SELECT-</option>
                               <option th:each="country : ${countries}"
                                       th:value="${country.id}"
-                                      th:text="${country.description}">
+                                      th:text="${country.countryName}">
                               </option>
                           </select>
                       </div>
@@ -646,7 +646,7 @@
                               <option>-SELECT-</option>
                               <option th:each="state : ${states}"
                                       th:value="${state.id}"
-                                      th:text="${state.name}">
+                                      th:text="${state.city}">
                               </option>
                           </select>
                       </div>

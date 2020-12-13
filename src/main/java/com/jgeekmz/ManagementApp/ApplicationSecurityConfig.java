@@ -1,6 +1,5 @@
 package com.jgeekmz.ManagementApp;
 
-import org.hibernate.metamodel.model.domain.ManagedDomainType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -36,8 +36,15 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
        //auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-       auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+       //auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+
+        auth.jdbcAuthentication()
+                .dataSource(dataSource)
+                .usersByUsernameQuery("select username, password, enabled from user where username=?")
+                .authoritiesByUsernameQuery("select username, roles from user where username=?")
+                .passwordEncoder(bCryptPasswordEncoder());
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -45,8 +52,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                     .authorizeRequests()
-                    .antMatchers("/registerPage", "/login","/confirm", "/resetPassword" , "/css/**", "/js/**", "/fonts/**", "/img/**").permitAll()
-                    .antMatchers("/users/**", "/resources/**").hasAnyRole("ADMIN", "USER")
+                    .antMatchers("/registerPage", "/login","/confirm", "/resetPassword" , "/reset_password", "/assets/**" ,"/css/**", "/js/**", "/fonts/**", "/img/**").permitAll()
+                    .antMatchers("/users/**", "/users", "/resources/**").authenticated()
+                    .antMatchers("/activations").hasAuthority("ROLE_ADMIN")
                     .anyRequest()
                     .authenticated()
                 .and()

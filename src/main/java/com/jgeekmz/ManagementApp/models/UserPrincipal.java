@@ -1,8 +1,5 @@
 package com.jgeekmz.ManagementApp.models;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -20,6 +17,7 @@ public class UserPrincipal implements UserDetails {
     private boolean banned;
     private String confirmationToken;
     private List<GrantedAuthority> authorties;
+    private final User user;
 
     public UserPrincipal(User user) {
         this.username=user.getUsername();
@@ -29,13 +27,11 @@ public class UserPrincipal implements UserDetails {
         this.email=user.getEmail();
         this.banned=user.isBanned();
         this.enabled=user.isEnabled();
-        this.authorties= Arrays.stream(user.getRoles().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        this.user = user;
     }
 
-
     @Override
+
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorties;
     }

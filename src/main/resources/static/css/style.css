@@ -137,6 +137,56 @@ table tr th { color: #688a7e;}
   background-size: cover;
 }
 
+.reset-img3-body
+{
+  background: url('../img/background/IMG_9699.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: 10px 10px;
+  -o-background-size: cover;
+  background-size: contain;
+}
+
+.reset-form {
+    box-sizing: border-box;
+    margin: 335px 850px 100px 10px;
+    background-color: rgba(0,0,0,0.1);
+    padding: inherit;
+    box-shadow: 1px 5px 2px #330000;
+    z-index: -1;
+    height: 290px;
+    width: 350px;
+}
+
+.reset-wrap{
+    padding: 10px;
+    margin: auto;
+}
+
+.resetForm {
+  background: url('../img/background/IMG_9699.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: 10px 10px;
+  -o-background-size: cover;
+  background-size: contain;
+}
+
+.resetForm-form{
+box-sizing: border-box;
+    margin: 335px 850px 100px 10px;
+    background-color: rgba(0,0,0,0.1);
+    padding: inherit;
+    box-shadow: 1px 5px 2px #330000;
+    z-index: -1;
+    height: 290px;
+    width: 350px;
+}
+
+.resetForm-wrap{
+padding: 10px;
+    margin: auto;
+}
+
+
 .login-img3-body{
   background: url('../img/background/IMG_9699.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -153,7 +203,7 @@ table tr th { color: #688a7e;}
     padding: inherit;
     box-shadow: 1px 5px 2px #330000;
     z-index: -1;
-    height: 400px;
+    height: 450px;
     width: 300px;
 }
 

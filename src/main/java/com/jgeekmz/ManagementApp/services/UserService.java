@@ -3,12 +3,11 @@ package com.jgeekmz.ManagementApp.services;
 import java.util.List;
 import java.util.Optional;
 
-import com.jgeekmz.ManagementApp.controllers.UserController;
+import com.jgeekmz.ManagementApp.exceptions.UserNotFoundException;
 import com.jgeekmz.ManagementApp.models.User;
 import com.jgeekmz.ManagementApp.repositories.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +52,7 @@ public class UserService {
     }
 
     // Get user by username
-    public Optional<User> findByUsername(String username) {
+    public User findByUsername(String username) {
         return  userRepository.findByUsername(username);
     }
 
@@ -82,5 +81,31 @@ public class UserService {
     }
 
 
+    public void updateResetPasswordToken(String token, String email) throws UserNotFoundException {
+        User user = userRepository.findByEmail(email);
 
+        if(user != null) {
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+        } else {
+            throw new UserNotFoundException("Could not find user with this email address" + email);
+        }
+    }
+
+    //Find user by reset token
+    public User get(String resetPasswordToken) {
+        return userRepository.findByResetPasswordToken(resetPasswordToken);
+    }
+
+
+    // update password from reset link
+    public void updatePassword(User user, String newPassword) {
+    BCryptPasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
+    String encodedPassword = passwordEncoder.encode(newPassword);
+
+    user.setPassword(encodedPassword);
+    user.setResetPasswordToken(null);
+
+    userRepository.save(user);
+    }
 }

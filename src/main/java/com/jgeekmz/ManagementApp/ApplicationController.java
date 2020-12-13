@@ -29,14 +29,17 @@ public class ApplicationController {
         this.userRepository = userRepository;
     }
 
-    //Index page plus count vehicles, users, employees, locations. Find all posts.
+    //Index page plus count vehicles, users, active users, employees, locations. Find all posts.
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String goHome(Model model) {
+    public String goHome(Model model, Long id) {
         model.addAttribute("tcount", vehicleRepo.count());
         model.addAttribute("empcount", employeeRepo.count());
         model.addAttribute("locations", locationRepo.count());
         model.addAttribute("posts", postRepo.findAll());
         model.addAttribute("tusers", userRepository.count());
+
+        // count of not active users
+        model.addAttribute("tactiveUsers", userRepository.countByID(id));
         return "index";
     }
 

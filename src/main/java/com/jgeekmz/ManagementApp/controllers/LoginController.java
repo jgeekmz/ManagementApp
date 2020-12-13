@@ -1,6 +1,5 @@
 package com.jgeekmz.ManagementApp.controllers;
 
-import com.jgeekmz.ManagementApp.models.UserPrincipal;
 import com.jgeekmz.ManagementApp.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +37,7 @@ public class LoginController {
         String s = (String) session.getAttribute(String.valueOf(session));
         //System.out.println("Session is null >>> " + s);
 
+        
         if (session != null) {
             String k = (String) session.getAttribute(String.valueOf(session));
             System.out.println("Session is not null >>> " + k);
