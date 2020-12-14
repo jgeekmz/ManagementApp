@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -38,7 +39,7 @@ public class RegisterController {
         this.notificationService = notificationService;
     }
 
-    //Return registration form template
+    //Return registration html template
     @RequestMapping(value="/registerPage", method = RequestMethod.GET)
     public ModelAndView showRegistrationPage(ModelAndView modelAndView, User user){
         modelAndView.addObject("user", user);
@@ -89,8 +90,12 @@ public class RegisterController {
             // Generate random 36-character string token for confirmation link
             user.setConfirmationToken(UUID.randomUUID().toString());
 
+            Date todayDate = new Date();
+            user.setRegDate(todayDate);
+
             userService.saveUser(user);
 
+            // URL for registration
             String appUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/";
 
             // email notification
@@ -157,7 +162,7 @@ public class RegisterController {
         //User Admin needs to activate the user manually
         //user.setEnabled(false);
 
-        user.setRoles("USER");
+        user.setRoles("ROLE_USER");
 
         // Save user
         userService.saveUser(user);

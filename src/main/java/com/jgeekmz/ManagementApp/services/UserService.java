@@ -7,7 +7,6 @@ import com.jgeekmz.ManagementApp.exceptions.UserNotFoundException;
 import com.jgeekmz.ManagementApp.models.User;
 import com.jgeekmz.ManagementApp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -38,11 +37,14 @@ public class UserService {
     //Update User from application
     public void save(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
+        //fixed when updating password from admin view
+        user.setRoles(user.getRoles());
         userRepository.save(user);
     }
 
     // Register User from registration page
     public void saveUser(User user) {
+        user.setRoles(user.getRoles());
         userRepository.save(user);
     }
 
@@ -54,6 +56,10 @@ public class UserService {
     // Get user by username
     public User findByUsername(String username) {
         return  userRepository.findByUsername(username);
+    }
+
+    public User findByNames (String firstName, String lastName) {
+        return (User) userRepository.findByFirstnameAndLastname(firstName,lastName);
     }
 
     //Find user by his username

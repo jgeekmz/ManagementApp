@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
   <meta charset="utf-8">
@@ -382,6 +382,19 @@
                           <li><a class="" th:href="@{/countries}">Countries</a></li>
                           <li><a class="" th:href="@{/states}">States</a></li>
                           <li><a class="" th:href="@{/locations}">Locations</a></li>
+                      </ul>
+                  </li>
+
+                  <li class="sub-menu" sec:authorize="hasRole('ADMIN')" >
+                      <a href="javascript:;" class="">
+                          <i class="icon_book"></i>
+                          <span  >Users</span>
+                          <span class="menu-arrow arrow_carrot-right"></span>
+                      </a>
+                      <ul class="sub" >
+                          <li><a class="" th:href="@{/users}">Registered Users</a></li>
+                          <li><a class="" th:href="@{/activations}">User Activation</a></li>
+                          <li><a class="" th:href="@{/usersReports}">Users Reports</a></li>
                       </ul>
                   </li>
 

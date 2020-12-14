@@ -30,13 +30,18 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     final String countByID = "SELECT COUNT(ra) FROM User ra WHERE ra.enabled=false";
 
     @Query(value = countByID)
-    Integer countByID (Long id);
+    Integer countByID(Long id);
 
     @Modifying
-    @Query(value="update User u set u.enabled = :enabled where u.id = :id")
-    void activateUser (@Param(value = "id") Integer id, @Param(value = "enabled") Boolean enabled);
+    @Query(value = "update User u set u.enabled = :enabled where u.id = :id")
+    void activateUser(@Param(value = "id") Integer id, @Param(value = "enabled") Boolean enabled);
 
     //Reset Password by email
     User findByResetPasswordToken(String token);
+
+    List<User> findByFirstnameAndLastname(String firstname, String lastname);
+
+    @Query(value = "SELECT e.username FROM User e WHERE e.firstname = ?1 AND e.lastname = ?2", nativeQuery = true)
+    String findUsernameByFirstnameAndLastname(@Param("firstname") String firstname, @Param("lastname") String lastname);
 
 }

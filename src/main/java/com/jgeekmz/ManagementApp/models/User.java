@@ -15,6 +15,7 @@ import javax.validation.constraints.Size;
 import org.springframework.data.annotation.Transient;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Data
@@ -65,6 +66,16 @@ public class User {
     private String resetPasswordToken;
 
     private String roles;
+
+    public Date getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(Date regDate) {
+        this.regDate = regDate;
+    }
+
+    private Date regDate;
 
     public String getRoles() { return roles; }
 

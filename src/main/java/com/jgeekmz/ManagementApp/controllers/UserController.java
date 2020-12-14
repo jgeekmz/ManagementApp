@@ -14,7 +14,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Controller
@@ -39,7 +41,7 @@ public class UserController {
     public String findAll(Model model) {
         List<User> userList = userService.findAll();
         model.addAttribute("users", userList);
-        System.out.println("HERE!");
+        //System.out.println("HERE!");
         return "user";
     }
 
@@ -47,59 +49,10 @@ public class UserController {
     @RequestMapping("users/findById")
     @ResponseBody
     public Optional<User> findById(Integer id) {
-        System.out.println(userRepository.findById(id));
+        //System.out.println(userRepository.findById(id));
         return userService.findById(id);
     }
 
-    /*// REGISTER new user from Register Page
-    // Only users can log into the system, a.k.a. some employees might have also username and password
-    @RequestMapping(value = "users/addNew", method = RequestMethod.POST)
-    public ModelAndView addNew(@Valid @ModelAttribute("user") User user, BindingResult result, RedirectAttributes redir, Model model) {
-        RedirectView redirectView = new RedirectView("/login", true);
-        RedirectView redirectViewTwo = new RedirectView("/register", true);
-        RedirectView redd = new RedirectView("/register");
-
-        if(result.hasErrors()) {
-            ModelAndView mav = new ModelAndView("register","user",result.getAllErrors());
-            mav.addObject("user",user);
-            System.out.println("ERROR: " + result.hasFieldErrors("firstName"));
-            System.out.println("ERROR: " + result.getFieldError("firstName"));
-            log.info("Firstname is empty!");
-            return mav;
-        }
-
-        String uname = user.getUsername();
-        User usr = repoUser.findByUsername(uname);
-
-        // Logging info for new reg users
-        log.info(">> New registered: {}", user.toString());
-
-        redir.addFlashAttribute("message", "You are successfully registered! Please login into your account!");
-        redir.addFlashAttribute("messageExist", "User already exist!");
-        //System.out.println("Results:" + bindingResult);
-
-            // when the user is not registered in the database
-            // we check the username at registration
-            if (usr == null) {
-                log.error("User don't exist! Username is available!!!");
-                userService.saveUser(user);
-
-                // sent email notification to admin for the newly registered user to the platform
-                try {
-                    notificationService.sentNotification(user);
-                } catch (MailException e) {
-                    log.info("Error sending the notification" + e.getMessage());
-                }
-
-                ModelAndView mv= new ModelAndView("redirect:/login");
-                mv.addObject("user",user);
-                return mv;
-            } else {
-                log.error("User exist! Please use different username.");
-            }
-        //return new ModelAndView("register");
-        return new ModelAndView("redirect:/register");
-    }*/
 
     //@GetMapping("/users/checkUser")
     @RequestMapping(value = "/login/checkUser", method = RequestMethod.POST)
@@ -116,6 +69,8 @@ public class UserController {
     @RequestMapping(value = "users/addNewUser", method = RequestMethod.POST)
     public String addNewUser(User user) {
         //save new user to db
+        Date dt = new Date();
+        user.setRegDate(dt);
         userService.save(user);
         return REDIRECT;
     }
@@ -154,14 +109,20 @@ public class UserController {
 
     //Return all not active users
     @GetMapping("/activations")
-    public String activate(Model model, Boolean enabled, Principal principal){
+    public String activate(Locale locale, Model model, Boolean enabled, Principal principal, RedirectAttributes redir) {
+        //log.info("Logged in user >>>>>" + principal.getName());
 
-        //Enabled == false
-        System.out.println("Activations!");
-        log.info("Logged in user >>>>>" + principal.getName());
-
-        model.addAttribute("users",userService.findByValidFalse(enabled));
+        List<User> user = userService.findByValidFalse(enabled);
+        //log.info(String.valueOf(user));
+        if (user.isEmpty()) {
+            //log.info("redirect!");
+            redir.addFlashAttribute("msg", "No users for activation available!");
+            return "redirect:/users";
+        } else {
+            //log.info("UUUUU");
+            model.addAttribute("users", userService.findByValidFalse(enabled));
+        }
+        //model.addAttribute("users",userService.findByValidFalse(enabled));
         return "activation";
     }
-
 }

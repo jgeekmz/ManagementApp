@@ -36,6 +36,7 @@ $('document').ready(function() {
 		            }
 	        }
         }
+        $('#rolesEdit').val(user.roles);
         });
         $('#editModal').modal();
     });
