@@ -492,44 +492,60 @@
                         <table width="100%">
                             <tr>
                                 <td width="50%">
-                                    <div class="form-group">
+
+                                    <div class="form-group-row">
                                         <label for="txtIdEdit" class="col-sm-4 col-form-label">Id: </label>
                                         <div class="col-sm-6">
                                             <input type="text" class="form-control" id="txtIdEdit" name="id">
                                         </div>
                                     </div>
+
                                     <div class="form-group">
-                                        <label class="col-form-label" style="display:none;">Firstname: </label>
-                                        <input type="hidden" class="form-control" id="firstnameEdit" name="firstname">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-form-label" style="display:none;">Lastname: </label>
-                                        <input type="hidden" class="form-control" id="lastnameEdit" name="lastname">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-form-label" style="display:none;">Email: </label>
-                                        <input type="hidden" class="form-control" id="emailEdit" name="email">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-form-label" style="display:none;">Username: </label>
-                                        <input type="hidden" class="form-control" id="usernameEdit" name="username">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-form-label" style="display:none;">Password: </label>
-                                        <input type="hidden" class="form-control" id="passwordEdit" name="password">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="txtEnabledEditView" class="col-form-label">Valid: </label>
-                                        <div col-sm-6>
-                                        <input type="text" class="form-control" id="txtEnabledEditView" name="enabled">
+                                        <label  for="firstnameEdit" class="col-sm-4 col-form-label" >Firstname: </label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="firstnameEdit" name="firstname">
                                         </div>
                                     </div>
+
                                     <div class="form-group">
-                                        <label class="col-form-label" >User Role</label>
-                                        <!--<input type="text" class="form-control" id="rolesEdit" name="roles">-->
-                                        <div col-sm-6>
+                                        <label class="col-sm-4 col-form-label">Lastname: </label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="lastnameEdit" name="lastname">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-4 col-form-label">Email: </label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="emailEdit" name="email">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-4 col-form-label">Username: </label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="usernameEdit" name="username">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-4 col-form-label">Password: </label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="passwordEdit" name="password">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="txtEnabledEditView" class="col-sm-4 col-form-label">Valid: </label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="txtEnabledEditView" name="enabled">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="rolesEdit" class="col-sm-4 col-form-label" >User Role: </label>
+                                        <div class="col-sm-6">
                                             <select class="form-control" id="rolesEdit" name="roles" required>
-                                                <option>-SELECT-</option>
                                                 <option value="1">ROLE_USER</option>
                                                 <option value="2">ROLE_CREATOR</option>
                                                 <option value="3">ROLE_EDITOR</option>
@@ -537,6 +553,7 @@
                                             </select>
                                         </div>
                                     </div>
+
                                 </td>
                             </tr>
                         </table>

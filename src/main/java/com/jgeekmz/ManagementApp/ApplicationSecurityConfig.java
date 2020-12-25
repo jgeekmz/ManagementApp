@@ -114,19 +114,19 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                     .defaultSuccessUrl("/index", true)
                     .failureUrl("/login-error").permitAll()
                     .successHandler(myAuthenticationSuccessHandler)
-                    //.failureHandler(authenticationFailureHandler)
-                .and()
+                    .failureHandler(authenticationFailureHandler)
+                .permitAll()
+                    .and()
                     .rememberMe().rememberMeParameter("remember-me").tokenRepository(persistentTokenRepository())
                     //.userDetailsService(userDetailsService)
                 .and()
-
                 .logout()
                     .logoutSuccessHandler(myLogoutSuccessHandler)
-                    .invalidateHttpSession(true)
+                    .invalidateHttpSession(false)
                     .clearAuthentication(true)
                     .deleteCookies("JSESSIONID")
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
-                    //.logoutSuccessUrl("/login");
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl("/login");
 
     }
 
@@ -140,11 +140,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 out.write("{\"status\":\"error\"}" + "Authentication Error");
                 out.flush();
                 out.close()*/;
-                
-
             }
         };
     }
-
 
 }

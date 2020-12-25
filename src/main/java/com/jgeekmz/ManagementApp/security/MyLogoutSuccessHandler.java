@@ -26,6 +26,7 @@ public class MyLogoutSuccessHandler  implements LogoutSuccessHandler {
 
         logger.info("User was logged out!" + authentication.getName());
 
-        response.sendRedirect("/logout?logSucc=true");
+        //response.sendRedirect("/logout?logSucc=true");
+        response.sendRedirect("/login");
     }
 }
