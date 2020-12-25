@@ -42,15 +42,11 @@ public class LoginController {
         
         if (session != null) {
             String k = (String) session.getAttribute(String.valueOf(session));
-            System.out.println("Session is not null >>> " + k);
             AuthenticationException ex = (AuthenticationException) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
 
             if (ex instanceof BadCredentialsException) {
-                System.out.println("Error Message >>> " + ex);
-                //errorMessage = ex.getMessage();
                 redir.addFlashAttribute("messageUserNotExist", "Username or password is wrong! Contact an Administrator");
             } else if (ex instanceof DisabledException) {
-                System.out.println("DISABLED!" + ex);
                 redir.addFlashAttribute("messageUserNotActive", "Your account is not active yet! Contact an Administrator");
             }
 
@@ -60,10 +56,6 @@ public class LoginController {
         }
 
         RedirectView redirectView = new RedirectView("/login", true);
-
-        //redir.addFlashAttribute("messageUserExist", "User already exist!");
-        //model.addAttribute("messageUserNotExist", "User is not registered");
-        //model.addAttribute("errorMessage",errorMessage);
         return redirectView;
     }
 

@@ -1772,6 +1772,13 @@ div[data-role="editor-toolbar"] {
 
 }
 
+.info-box .weather{
+    width:42%;
+
+    float: left;
+
+}
+
 .info-box .desc {
 
   margin-top: 10px;
