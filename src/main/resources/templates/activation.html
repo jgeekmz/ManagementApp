@@ -443,6 +443,7 @@
                                 <th><i class="fas fa-user-alt"> Valid: </i></th>
                                 <th><i class="fas fa-user-alt"> Username</i></th>
                                 <th><i class="fas fa-user-alt"> Email Address</i></th>
+                                <th><i class="fas fa-user-alt"> Email Address</i></th>
                                 <th><i class="icon_cogs"></i> Actions </th>
                             </tr>
                             <tr th:each="user:${users}">
@@ -454,6 +455,7 @@
                                 <td th:text="${user.lastname}"> Lastname</td>
                                 <td th:text="${user.password}"> Password</td>
                                 <td th:text="${user.confirmationToken}">ConfirmationToken</td>-->
+                                <td th:text="${user.roles}"></td>
                                 <td>
                                     <div class="btn-group">
                                         <a class="btn btn-primary" id="editButton" th:href="@{/users/findById/(id=${user.id})}"><i>Activate</i></a>
@@ -483,14 +485,14 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">User Activation</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
                 </div>
                 <div class="modal-body">
                     <form>
                         <table width="100%">
                             <tr>
                                 <td width="50%">
-                                    <div class="form-group row">
+                                    <div class="form-group">
                                         <label for="txtIdEdit" class="col-sm-4 col-form-label">Id: </label>
                                         <div class="col-sm-6">
                                             <input type="text" class="form-control" id="txtIdEdit" name="id">
@@ -516,20 +518,24 @@
                                         <label class="col-form-label" style="display:none;">Password: </label>
                                         <input type="hidden" class="form-control" id="passwordEdit" name="password">
                                     </div>
-                                    <div class="form-group row">
-                                        <label for="txtEnabledEditView" class="col-sm-4 col-form-label">Valid: </label>
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control" id="txtEnabledEditView" name="enabled">
-                                            <!--<input type="text" class="form-control" list="txtEnabledEdit"  name="enabled">
-                                            <datalist id="txtEnabledEdit">
-                                                <option value="false">
-                                                <option value="true">
-                                            </datalist>-->
+                                    <div class="form-group">
+                                        <label for="txtEnabledEditView" class="col-form-label">Valid: </label>
+                                        <div col-sm-6>
+                                        <input type="text" class="form-control" id="txtEnabledEditView" name="enabled">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-form-label" style="display:none;">User Role</label>
-                                        <input type="hidden" class="form-control" id="rolesEdit" name="roles">
+                                        <label class="col-form-label" >User Role</label>
+                                        <!--<input type="text" class="form-control" id="rolesEdit" name="roles">-->
+                                        <div col-sm-6>
+                                            <select class="form-control" id="rolesEdit" name="roles" required>
+                                                <option>-SELECT-</option>
+                                                <option value="1">ROLE_USER</option>
+                                                <option value="2">ROLE_CREATOR</option>
+                                                <option value="3">ROLE_EDITOR</option>
+                                                <option value="4">ROLE_ADMIN</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>

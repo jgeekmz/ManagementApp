@@ -14,12 +14,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableJpaRepositories(basePackageClasses = UserRepository.class)
 public class ManagementAppApplication {
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Bean
     public AuditorAware<String> auditorAware() { return new SpringSecurityAuditorAware(); }
 
-    @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     public static void main(String[] args) {
         SpringApplication.run(ManagementAppApplication.class, args);

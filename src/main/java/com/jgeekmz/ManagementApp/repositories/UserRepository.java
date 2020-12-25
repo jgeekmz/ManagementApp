@@ -1,5 +1,6 @@
 package com.jgeekmz.ManagementApp.repositories;
 
+import com.jgeekmz.ManagementApp.models.Role;
 import com.jgeekmz.ManagementApp.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,7 +13,8 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    <Optional> User findByUsername(String username);
+    @Query("SELECT u FROM User u WHERE u.username = :username")
+    User findByUsername(@Param("username") String username);
 
     User findByPassword(String password);
 

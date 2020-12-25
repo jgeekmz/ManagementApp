@@ -19,4 +19,6 @@ public class ActiveUserStore {
         this.users = users;
     }
 
+    public List<String> roles;
+
 }

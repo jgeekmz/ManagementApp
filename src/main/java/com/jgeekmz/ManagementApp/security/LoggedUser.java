@@ -10,7 +10,6 @@ import java.util.List;
 
 @Component
 public class LoggedUser implements HttpSessionBindingListener {
-
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     private String username;
@@ -31,6 +30,7 @@ public class LoggedUser implements HttpSessionBindingListener {
         LoggedUser user = (LoggedUser) event.getValue();
         if (!users.contains(user.getUsername())) {
             users.add(user.getUsername());
+
         }
         log.info("User was logged!" + activeUserStore.getUsers());
     }
@@ -38,10 +38,12 @@ public class LoggedUser implements HttpSessionBindingListener {
     @Override
     public void valueUnbound(HttpSessionBindingEvent event) {
         List<String> users = activeUserStore.getUsers();
+        System.out.println(">>>>>  " + users);
         LoggedUser user = (LoggedUser) event.getValue();
         if (users.contains(user.getUsername())) {
             users.remove(user.getUsername());
         }
+        log.info("User was logged out!" + activeUserStore.getUsers());
     }
 
     public String getUsername() {
@@ -51,4 +53,5 @@ public class LoggedUser implements HttpSessionBindingListener {
     public void setUsername(String username) {
         this.username = username;
     }
+
 }

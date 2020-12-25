@@ -12,12 +12,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.annotation.Transient;
 
-import java.io.Serializable;
-import java.util.Date;
+import java.util.*;
 
 @Entity
+@ComponentScan(basePackages = { "com.jgeekmz.ManagementApp.models" })
 @Data
 @Table(name="user")
 //NoArgsConstructor
@@ -65,26 +66,19 @@ public class User {
     @Column(name = "reset_password_token")
     private String resetPasswordToken;
 
-    private String roles;
 
-    public Date getRegDate() {
-        return regDate;
-    }
-
-    public void setRegDate(Date regDate) {
-        this.regDate = regDate;
-    }
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name="users_roles",
+            joinColumns = {@JoinColumn(name="user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name="role_id", referencedColumnName = "id")})
+    private Collection<Role> roles;
 
     private Date regDate;
-
-    public String getRoles() { return roles; }
-
-    public void setRoles(String roles) { this.roles = roles; }
 
     @NonNull
     public User() { }
 
-    public User(int id, @NotEmpty(message = "Firstname should not be empty") String firstname, String lastname, String username, String password, String email, boolean enabled, boolean banned, String confirmationToken) {
+    public User(int id, @NotEmpty(message = "Please provide your firstname") @Size(min = 3, message = "Ops! Min symbols 3!") String firstname, @NotEmpty(message = "Please provide your lastname") @Size(min = 4, max = 16, message = "Username should be between 4 and 16 symbols") String lastname, @NotBlank(message = "Name is mandatory") String username, String password, @Email(message = "Please provide a valid e-mail") @NotEmpty(message = "Please provide an e-mail") String email, boolean enabled, boolean banned, String confirmationToken, String resetPasswordToken, List<Role> roles, Date regDate) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -94,10 +88,15 @@ public class User {
         this.enabled = enabled;
         this.banned = banned;
         this.confirmationToken = confirmationToken;
+        this.resetPasswordToken = resetPasswordToken;
+        this.roles =  roles;
+        this.regDate = regDate;
     }
 
     @Override
     public String toString() {
+        String output = roles.toString().replace("[","");
+
         return "User{" +
                 "id=" + id +
                 ", firstname='" + firstname + '\'' +
@@ -107,7 +106,10 @@ public class User {
                 ", email='" + email + '\'' +
                 ", enabled=" + enabled +
                 ", banned=" + banned +
-                ", confirmationToken='" + confirmationToken + '\''+
+                ", confirmationToken='" + confirmationToken + '\'' +
+                ", resetPasswordToken='" + resetPasswordToken + '\'' +
+                ", roles=" + roles.toString().replace("[","") +
+                ", regDate=" + regDate +
                 '}';
     }
 
@@ -116,29 +118,17 @@ public class User {
 
     public void setId(int id) { this.id = id; }
 
-    public String getFirstname() {
-        return firstname;
-    }
+    public String getFirstname() { return firstname; }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
+    public void setFirstname(String firstname) { this.firstname = firstname; }
 
-    public String getLastname() {
-        return lastname;
-    }
+    public String getLastname() { return lastname; }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
+    public void setLastname(String lastname) { this.lastname = lastname; }
 
-    public String getUsername() {
-        return username;
-    }
+    public String getUsername() { return username; }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    public void setUsername(String username) { this.username = username; }
 
     public String getPassword() {
         return password;
@@ -186,8 +176,23 @@ public class User {
         this.resetPasswordToken = resetPasswordToken;
     }
 
-    public boolean isPresent() {
-        return true;
+    public boolean isPresent() { return true; }
+
+    public Date getRegDate() {
+        return regDate;
     }
+
+    public void setRegDate(Date regDate) {
+        this.regDate = regDate;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(final Collection<Role> roles) {
+        this.roles = roles;
+    }
+
 
 }

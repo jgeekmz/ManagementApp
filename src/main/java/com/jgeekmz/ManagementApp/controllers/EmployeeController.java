@@ -126,6 +126,7 @@ public class EmployeeController {
         String firstname = emp.getFirstname();
         String lastname = emp.getLastname();
         String userName = rep.findUsernameByFirstnameAndLastname(firstname,lastname);
+        System.out.println(userName);
         List<User> userFound =  employeeService.assignUsername(id);
 
         if (userFound.isEmpty()) {

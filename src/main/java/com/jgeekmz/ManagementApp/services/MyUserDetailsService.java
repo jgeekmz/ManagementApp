@@ -5,13 +5,13 @@ import com.jgeekmz.ManagementApp.models.UserPrincipal;
 import com.jgeekmz.ManagementApp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collection;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
@@ -21,31 +21,31 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> opt = Optional.ofNullable(this.userRepository.findByUsername(username));
-        org.springframework.security.core.userdetails.User springUser = null;
+        User user = userRepository.findByUsername(username);
+        //org.springframework.security.core.userdetails.User springUser = null;
 
-        //Optional<User> user  = userRepository.findByUsername(username);
-
-        if (opt.isEmpty()) {
+        if (user == null) {
             throw new UsernameNotFoundException("User not found!" + username);
-        } else {
+        }/* else {
             User user = opt.get();
 
-            System.out.println("VLIZAM TUK!");
-            List<String> roles = Collections.singletonList(user.getRoles());
+            *//*List<Set<Role>> roles = Collections.singletonList(user.getRoles());
             Set<GrantedAuthority> ga = new HashSet<>();
-            for (String role : roles) {
+            for (Set<Role> role : roles) {
                 ga.add(new SimpleGrantedAuthority(role));
-            }
-
-            springUser = new org.springframework.security.core.userdetails.User(username, user.getPassword(), ga);
-        }
-
+            }*//*
+            springUser = new org.springframework.security.core.userdetails.User(username, user.getPassword());
+        }*/
 
         //return user.map(UserPrincipal::new).get();
         //return opt.map(UserPrincipal::new).get();
-        return springUser;
+        return new UserPrincipal(user);
     }
 
+    private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
+        String[] userRoles = user.getRoles().stream().map((role) -> role.getName()).toArray(String[]::new);
+        Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
+        return authorities;
+    }
 }
 

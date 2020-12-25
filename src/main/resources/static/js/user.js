@@ -18,6 +18,7 @@ $('document').ready(function() {
                 var totalRows = document.getElementById("table").rows.length;
                 var totalCol = 8; // enter the number of columns in the table minus 1 (first column is 0 not 1)
                 var firstCell;
+                //var arraysRoles = [];
                 var abort, active;
                 var checker = false;
                     //To display all values
@@ -25,9 +26,13 @@ $('document').ready(function() {
 	                for (var y = 0; y <= totalCol; y++) {
 	                        var check= table.rows[x].cells[y].innerHTML
 		                    if (check == idUser) {
-			                    //alert(table.rows[x].cells[1].innerHTML);
 			                     firstCell = table.rows[x].cells[7].innerHTML; // take the value of the Valid cell for activation of the user from admin
+
+			                     //arraysRoles = table.rows[x].cells[8].innerHTML;
+			                     //console.log(arraysRoles);
+
 			                     $('#enabledEdit').val(firstCell);
+
                                     /*if (firstCell != checker) {
                                         console.log(firstCell);
                                         active = true;
@@ -38,6 +43,8 @@ $('document').ready(function() {
 		                    }
 	                }
                 }
+
+
     			//$('#enabledEdit').val(user.enabled);
     			$('#rolesEdit').val(user.roles);
     		});

@@ -1,5 +1,6 @@
 package com.jgeekmz.ManagementApp.controllers;
 
+import com.jgeekmz.ManagementApp.models.User;
 import com.jgeekmz.ManagementApp.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,11 +32,12 @@ public class LoginController {
     public String login() { return "login"; }
 
     @GetMapping("/login-error")
-    public RedirectView loginError(Model model, HttpServletRequest request, RedirectAttributes redir) {
+    public RedirectView loginError(Model model, HttpServletRequest request, RedirectAttributes redir, User user) {
         HttpSession session = request.getSession(false);
         String errorMessage = null;
         String s = (String) session.getAttribute(String.valueOf(session));
-        //System.out.println("Session is null >>> " + s);
+        String usrName = user.getUsername();
+        User check = userRepository.findByUsername(usrName);
 
         
         if (session != null) {
@@ -51,7 +53,10 @@ public class LoginController {
                 System.out.println("DISABLED!" + ex);
                 redir.addFlashAttribute("messageUserNotActive", "Your account is not active yet! Contact an Administrator");
             }
-            redir.addFlashAttribute("messageUserNotRegistered", "User is not registered!");
+
+            if (check != null) {
+                redir.addFlashAttribute("messageUserNotRegistered", "User is not registered!");
+            }
         }
 
         RedirectView redirectView = new RedirectView("/login", true);

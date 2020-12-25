@@ -1,6 +1,8 @@
 package com.jgeekmz.ManagementApp.controllers;
 
+import com.jgeekmz.ManagementApp.models.Role;
 import com.jgeekmz.ManagementApp.models.User;
+import com.jgeekmz.ManagementApp.repositories.RoleRepository;
 import com.jgeekmz.ManagementApp.repositories.UserRepository;
 import com.jgeekmz.ManagementApp.services.UserService;
 import org.slf4j.Logger;
@@ -14,19 +16,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class UserController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
     private static final String REDIRECT = "redirect:/users";
+
     private final UserService userService;
     private final UserRepository userRepository;
 
     @Autowired private BCryptPasswordEncoder encoder;
+    @Autowired private RoleRepository roleRepository;
 
     @Autowired
     public UserController(UserService userService, UserRepository userRepository) {
@@ -41,15 +42,13 @@ public class UserController {
     public String findAll(Model model) {
         List<User> userList = userService.findAll();
         model.addAttribute("users", userList);
-        //System.out.println("HERE!");
         return "user";
     }
 
     //Find user by ID
     @RequestMapping("users/findById")
     @ResponseBody
-    public Optional<User> findById(Integer id) {
-        //System.out.println(userRepository.findById(id));
+    public Optional<User> findById(Integer id, Model model) {
         return userService.findById(id);
     }
 
@@ -71,6 +70,7 @@ public class UserController {
         //save new user to db
         Date dt = new Date();
         user.setRegDate(dt);
+
         userService.save(user);
         return REDIRECT;
     }
@@ -78,7 +78,7 @@ public class UserController {
     //Update user
     @RequestMapping(value = "users/update", method = { RequestMethod.PUT, RequestMethod.GET })
     public String update(User user) {
-        userService.saveUser(user);
+        userService.updateUser(user);
         return REDIRECT;
     }
 
@@ -111,15 +111,12 @@ public class UserController {
     @GetMapping("/activations")
     public String activate(Locale locale, Model model, Boolean enabled, Principal principal, RedirectAttributes redir) {
         //log.info("Logged in user >>>>>" + principal.getName());
-
         List<User> user = userService.findByValidFalse(enabled);
-        //log.info(String.valueOf(user));
+
         if (user.isEmpty()) {
-            //log.info("redirect!");
             redir.addFlashAttribute("msg", "No users for activation available!");
             return "redirect:/users";
         } else {
-            //log.info("UUUUU");
             model.addAttribute("users", userService.findByValidFalse(enabled));
         }
         //model.addAttribute("users",userService.findByValidFalse(enabled));

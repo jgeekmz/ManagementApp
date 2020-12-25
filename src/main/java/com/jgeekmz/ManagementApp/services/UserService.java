@@ -1,10 +1,13 @@
 package com.jgeekmz.ManagementApp.services;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import com.jgeekmz.ManagementApp.exceptions.UserNotFoundException;
+import com.jgeekmz.ManagementApp.models.Role;
 import com.jgeekmz.ManagementApp.models.User;
+import com.jgeekmz.ManagementApp.repositories.RoleRepository;
 import com.jgeekmz.ManagementApp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,15 +16,22 @@ import org.springframework.stereotype.Service;
 @Service("userService")
 public class UserService {
     private UserRepository userRepository;
+    private RoleRepository roleRepository;
 
-    @Autowired public UserService(UserRepository userRepository) {
+    @Autowired public UserService(UserRepository userRepository,RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository=roleRepository;
     }
     @Autowired private BCryptPasswordEncoder encoder;
 
     //Get All Users
     public List<User> findAll(){
         return userRepository.findAll();
+    }
+
+    //Find roles
+    public List<Role> findAllRoles(Integer userId) {
+        return roleRepository.findAll();
     }
 
     //Get User By Id
@@ -37,14 +47,15 @@ public class UserService {
     //Update User from application
     public void save(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
-        //fixed when updating password from admin view
-        user.setRoles(user.getRoles());
         userRepository.save(user);
     }
 
     // Register User from registration page
     public void saveUser(User user) {
-        user.setRoles(user.getRoles());
+        userRepository.save(user);
+    }
+
+    public void updateUser(User user) {
         userRepository.save(user);
     }
 
@@ -103,15 +114,12 @@ public class UserService {
         return userRepository.findByResetPasswordToken(resetPasswordToken);
     }
 
-
     // update password from reset link
     public void updatePassword(User user, String newPassword) {
     BCryptPasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
     String encodedPassword = passwordEncoder.encode(newPassword);
-
     user.setPassword(encodedPassword);
     user.setResetPasswordToken(null);
-
     userRepository.save(user);
     }
 }

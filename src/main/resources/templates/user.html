@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
   <meta charset="utf-8">
@@ -13,10 +13,13 @@
 
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
   <!-- Bootstrap CSS -->
+
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <!-- bootstrap theme -->
+
   <link href="css/bootstrap-theme.css" rel="stylesheet">
   <!--external css-->
+
   <!-- font icon -->
   <link href="css/elegant-icons-style.css" rel="stylesheet" />
   <link href="css/font-awesome.min.css" rel="stylesheet" />
@@ -429,8 +432,10 @@
         </div>
 
           <!-- Page Content-->
-        <!-- page start-->
+            <!-- page start-->
           <div th:text=${msg}></div>
+
+          <span sec:authentication="principal.authorities">ROLE_USER, ROLE_ADMIN</span>
 
           <div class="row">
               <div class="col-lg-12">
@@ -452,7 +457,7 @@
                                 <th><i class="icon_cogs"></i> Actions</th>
                                 <th><i class="icon_cogs"></i> Password Update</th>
                             </tr>
-                            <tr th:each="user:${users}">
+                            <tr th:each="user : ${users}">
                                 <td th:text="${user.id}"> ID</td>
                                 <td th:text="${user.firstname}"> Firstname</td>
                                 <td th:text="${user.lastname}"> Lastname</td>
@@ -461,7 +466,9 @@
                                 <td th:text="${user.email}"> Email Address</td>
                                 <td th:text="${user.confirmationToken}"> ConfirmationToken</td>
                                 <td th:text="${user.enabled}" > Valid</td>
-                                <td th:text="${user.roles}"> User Role</td>
+                                <td th:text="${#strings.toUpperCase(user.roles)}"> User Role</td>
+                                <!--<td th:text="${roles}"></td>-->
+
                                 <td>
                                   <div class="btn-group">
                                       <a class="btn btn-info" id="editButton" th:href="@{/users/findById/(id=${user.id})}"><i class="icon_pencil-edit"></i></a>
@@ -469,14 +476,17 @@
                                       <a class="btn btn-danger" id="deleteButton" th:href="@{/users/delete/(id=${user.id})}"><i class="icon_close_alt2"></i></a>
                                   </div>
                                 </td>
+
                                 <td>
                                     <div class="btn-group">
                                         <a class="btn btn-warning" id="updatePasswordButton" th:href="@{/users/findById/(id=${user.id})}"><i class="">Update Password</i></a>
                                     </div>
                                 </td>
+
                             </tr>
                           </tbody>
                       </table>
+                      
                   </section>
               </div>
           </div>
@@ -549,8 +559,8 @@
                                           <div class="col-sm-6">
                                               <select class="form-control" id="txtRolesAdd" name="roles" required>
                                                   <option value="">-SELECT-</option>
-                                                  <option value="ROLE_USER">ROLE_USER</option>
-                                                  <option value="ROLE_ADMIN">ROLE_ADMIN</option>
+                                                  <option value="1">ROLE_USER</option>
+                                                  <option value="4">ROLE_ADMIN</option>
                                               </select>
                                           </div>
                                       </div>
@@ -606,17 +616,20 @@
                           <label class="col-form-label">Valid:</label>
                           <input type="text" class="form-control" id="enabledEdit" name="enabled">
                       </div>
-                      <div class="form-group-row">
+                      <div class="form-group">
                           <!--<label class="col-form-label">User Role:</label>-->
-                          <label for="rolesEdit" class="col-sm-4 col-form-label">User Role</label>
+                          <label class="col-sm-4 col-form-label" for="rolesEdit">User Role</label>
                           <!--<input type="text" class="form-control" id="rolesEdit" name="roles">-->
-                          <!--<div class="col-sm-6">-->
+                          <div >
                               <select class="form-control" id="rolesEdit" name="roles" required>
                                   <option value="">-SELECT-</option>
-                                  <option value="ROLE_USER">ROLE_USER</option>
-                                  <option value="ROLE_ADMIN">ROLE_ADMIN</option>
+                                  <option value="">Delete Role</option>
+                                  <option value="1">ROLE_USER</option>
+                                  <option value="2">ROLE_CREATOR</option>
+                                  <option value="3">ROLE_EDITOR</option>
+                                  <option value="4">ROLE_ADMIN</option>
                               </select>
-                         <!-- </div>-->
+                         </div>
                       </div>
                   </div>
                   <div class="modal-footer">

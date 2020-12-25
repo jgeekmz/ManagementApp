@@ -48,8 +48,36 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationFailureHandler authenticationFailureHandler;
 
+    @Autowired
+    DataSource dataSource;
+
     public ApplicationSecurityConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return bCryptPasswordEncoder();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder(10);
+    }
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+        tokenRepository.setDataSource(dataSource);
+        return tokenRepository;
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(bCryptPasswordEncoder());
+        return provider;
     }
 
     @Override
@@ -57,22 +85,24 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
        //auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
        //auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
 
-        auth.jdbcAuthentication()
+      /*  auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .usersByUsernameQuery("select username, password, enabled from user where username=?")
-                .authoritiesByUsernameQuery("select username, roles from user where username=?")
-                .passwordEncoder(bCryptPasswordEncoder());
+                //.authoritiesByUsernameQuery("select username from user where username=?")
+                .passwordEncoder(bCryptPasswordEncoder());*/
+
+        auth.authenticationProvider(authenticationProvider());
     }
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        log.info("Spring Security!!!!!");
+        log.info("Spring Security 2020!!!!!");
         http
                 .csrf().disable()
                     .authorizeRequests()
-                    .antMatchers("/registerPage", "/login","/confirm", "/resetPassword" , "/reset_password", "/assets/**" ,"/css/**", "/js/**", "/fonts/**", "/img/**").permitAll()
-                    .antMatchers("/users/**", "/users", "/resources/**").authenticated()
+                    .antMatchers("/registerPage", "/registerPageAdmin", "/login", "/confirm", "/confirmAdmin", "/resetPassword", "/reset_password", "/assets/**", "/css/**", "/js/**", "/fonts/**", "/img/**").permitAll()
+                    .antMatchers("/users/**", "/users", "/resources/**").hasAuthority("ROLE_ADMIN")
                     .antMatchers("/activations").hasAuthority("ROLE_ADMIN")
                     .anyRequest()
                     .authenticated()
@@ -84,7 +114,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                     .defaultSuccessUrl("/index", true)
                     .failureUrl("/login-error").permitAll()
                     .successHandler(myAuthenticationSuccessHandler)
-                    .failureHandler(authenticationFailureHandler)
+                    //.failureHandler(authenticationFailureHandler)
                 .and()
                     .rememberMe().rememberMeParameter("remember-me").tokenRepository(persistentTokenRepository())
                     //.userDetailsService(userDetailsService)
@@ -95,8 +125,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true)
                     .clearAuthentication(true)
                     .deleteCookies("JSESSIONID")
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/login");
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+                    //.logoutSuccessUrl("/login");
 
     }
 
@@ -105,40 +135,16 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         return new AuthenticationFailureHandler() {
             @Override
             public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-                httpServletResponse.setContentType("application/json;charset=utf-8");
+                /*httpServletResponse.setContentType("application/json;charset=utf-8");
                 PrintWriter out = httpServletResponse.getWriter();
-                out.write("{\"status\":\"error\"}");
+                out.write("{\"status\":\"error\"}" + "Authentication Error");
                 out.flush();
-                out.close();
+                out.close()*/;
+                
+
             }
         };
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return bCryptPasswordEncoder();
-    }
 
-    @Autowired
-    DataSource dataSource;
-
-    @Bean
-    public PersistentTokenRepository persistentTokenRepository() {
-        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
-        tokenRepository.setDataSource(dataSource);
-        return tokenRepository;
-    }
-
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder(10);
-    }
-
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(bCryptPasswordEncoder());
-        return provider;
-    }
 }

@@ -55,8 +55,6 @@ public class ResetPasswordController {
             //generate reset password link
             String resetPasswordLink = Utility.getSiteURL(request) + "/reset_password?token=" + token;
 
-            log.info(resetPasswordLink);
-
             // sent an reset e-mail to the user
             sentEmail(email, resetPasswordLink);
 

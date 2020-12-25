@@ -19,7 +19,6 @@ import java.util.Collection;
 
 @Component("myAuthenticationSuccessHandler")
 public class MySimpleUrlAuthenticationSuccessHandler  implements AuthenticationSuccessHandler {
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
@@ -43,7 +42,7 @@ public class MySimpleUrlAuthenticationSuccessHandler  implements AuthenticationS
         final String targetUrl = determineTargetUrl(authentication);
 
         if (response.isCommitted()) {
-            logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
+            logger.debug("Response has already been committed. Unable to redirect to >>>" + targetUrl);
             return;
         }
 
@@ -64,15 +63,15 @@ public class MySimpleUrlAuthenticationSuccessHandler  implements AuthenticationS
         boolean isUser = false;
         boolean isAdmin = false;
         final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
         for (final GrantedAuthority grantedAuthority : authorities) {
-            logger.info("Granted Authority" + grantedAuthority.getAuthority());
+            logger.info("Granted Authority >>>>>   " + grantedAuthority.getAuthority());
             //READ_PRIVILEGE
             //WRITE_PRIVILEGE
             if (grantedAuthority.getAuthority().equals("ROLE_ADMIN")) {
-                isUser = true;
-            } else if (grantedAuthority.getAuthority().equals("ROLE_USER")) {
                 isAdmin = true;
-                isUser = false;
+            } else if (grantedAuthority.getAuthority().equals("ROLE_USER") || grantedAuthority.getAuthority().equals("ROLE_CREATOR") || grantedAuthority.getAuthority().equals("ROLE_EDITOR")) {
+                isUser = true;
                 break;
             }
         }
