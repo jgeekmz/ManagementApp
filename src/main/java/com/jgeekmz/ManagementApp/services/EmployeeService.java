@@ -3,7 +3,6 @@ package com.jgeekmz.ManagementApp.services;
 import java.util.List;
 import java.util.Optional;
 
-import com.jgeekmz.ManagementApp.exceptions.UserNotFoundException;
 import com.jgeekmz.ManagementApp.models.Employee;
 import com.jgeekmz.ManagementApp.models.User;
 import com.jgeekmz.ManagementApp.repositories.EmployeeRepository;
@@ -13,15 +12,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 @Service
 public class EmployeeService {
-
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
     private UserRepository userRepo;
     @Autowired
     UserService userService;
@@ -46,7 +44,7 @@ public class EmployeeService {
     }
 
     //Update Employee
-    public void save( Employee employee) {
+    public void save(Employee employee) {
         employeeRepository.save(employee);
     }
 
@@ -84,4 +82,6 @@ public class EmployeeService {
     public List<Employee> findEmployeeByKeaword(String keywordSearch) {
         return employeeRepository.findEmployeeByKeyword(keywordSearch);
     }
+
+
 }

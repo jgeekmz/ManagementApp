@@ -1,9 +1,5 @@
 package com.jgeekmz.ManagementApp.services;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
 import com.jgeekmz.ManagementApp.exceptions.UserNotFoundException;
 import com.jgeekmz.ManagementApp.models.Role;
 import com.jgeekmz.ManagementApp.models.User;
@@ -13,16 +9,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service("userService")
 public class UserService {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
 
-    @Autowired public UserService(UserRepository userRepository,RoleRepository roleRepository) {
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
+    @Autowired
+    public UserService(UserRepository userRepository,RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.roleRepository=roleRepository;
     }
-    @Autowired private BCryptPasswordEncoder encoder;
+
 
     //Get All Users
     public List<User> findAll(){

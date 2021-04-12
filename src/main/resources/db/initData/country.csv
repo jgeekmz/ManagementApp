@@ -1,0 +1,2 @@
+id, created_by, created_date, last_modified_by, last_modified_date, capital, code, continent, country_name, nationality
+2, "jgeek", 2021-04-11 18:05:01.800104, "jgeek", 2021-04-11 18:05:01.800104, "Sofia", "2700", "Europe", "Bulgaria", "Bulgarian"

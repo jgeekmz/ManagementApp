@@ -1,20 +1,9 @@
 package com.jgeekmz.ManagementApp.models;
 
-import java.util.Date;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Data
 //@NoArgsConstructor
@@ -26,18 +15,17 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String firstname;
-    private String lastname;
+    public String firstname;
+    public String lastname;
     private String othername;
     private String title;
     private String initials;
-    //private String socialSecurityNumber;
     private String gender;
     private String maritalStatus;
 
     @ManyToOne
     @JoinColumn(name = "countryid", insertable = false, updatable = false)
-    private Country country;
+    public Country country;
     private Integer countryid;
 
     @ManyToOne
@@ -47,23 +35,23 @@ public class Person {
 
     //@DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd")
-    private String dateOfBirth;
+    public String dateOfBirth;
 
     private String city;
     private String address;
-    private String phone;
-    private String mobile;
-    private String email;
+    public String phone;
+    public String mobile;
+    public String email;
     private String photo;
+    private String aboutMe;
 
-    public Person(Integer id, String firstname, String lastname, String othername, String title, String initials, String socialSecurityNumber, String gender, String maritalStatus, Country country, Integer countryid, State state, Integer stateid, String dateOfBirth, String city, String address, String phone, String mobile, String email, String photo) {
+    public Person(Integer id, String firstname, String lastname, String othername, String title, String initials, String gender, String maritalStatus, Country country, Integer countryid, State state, Integer stateid, String dateOfBirth, String city, String address, String phone, String mobile, String email, String photo, String aboutMe) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.othername = othername;
         this.title = title;
         this.initials = initials;
-        //this.socialSecurityNumber = socialSecurityNumber;
         this.gender = gender;
         this.maritalStatus = maritalStatus;
         this.country = country;
@@ -77,9 +65,10 @@ public class Person {
         this.mobile = mobile;
         this.email = email;
         this.photo = photo;
+        this.aboutMe = aboutMe;
     }
 
-    public Person () {
+    public Person() {
     }
 
     @Override
@@ -156,10 +145,9 @@ public class Person {
         this.initials = initials;
     }
 
-/*    public String getSocialSecurityNumber() {
+   /* public String getSocialSecurityNumber() {
         return socialSecurityNumber;
     }
-
     public void setSocialSecurityNumber(String socialSecurityNumber) {
         this.socialSecurityNumber = socialSecurityNumber;
     }*/

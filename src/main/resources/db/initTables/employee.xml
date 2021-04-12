@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- changes to be included -->
+    <changeSet id="9" author="zlatkov">
+        <sql>
+            CREATE TABLE `employee` (
+            `id` int NOT NULL AUTO_INCREMENT,
+            `address` varchar(255) DEFAULT NULL,
+            `city` varchar(255) DEFAULT NULL,
+            `countryid` int DEFAULT NULL,
+            `date_of_birth` varchar(255) DEFAULT NULL,
+            `email` varchar(255) DEFAULT NULL,
+            `firstname` varchar(255) DEFAULT NULL,
+            `gender` varchar(255) DEFAULT NULL,
+            `initials` varchar(255) DEFAULT NULL,
+            `lastname` varchar(255) DEFAULT NULL,
+            `marital_status` varchar(255) DEFAULT NULL,
+            `mobile` varchar(255) DEFAULT NULL,
+            `othername` varchar(255) DEFAULT NULL,
+            `phone` varchar(255) DEFAULT NULL,
+            `photo` varchar(255) DEFAULT NULL,
+            `stateid` int DEFAULT NULL,
+            `title` varchar(255) DEFAULT NULL,
+            `employeetypeid` int DEFAULT NULL,
+            `hire_date` varchar(255) DEFAULT NULL,
+            `jobtitleid` int DEFAULT NULL,
+            `username` varchar(255) DEFAULT NULL,
+            `about_me` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            KEY `FK9hga8iyrt1lh8ofyic3lb0792` (`countryid`),
+            KEY `FKdququtwg0blqbvnpwhhd8g3jf` (`stateid`),
+            KEY `FKe1h4f2i4kb3hdr67guoeyg16h` (`employeetypeid`),
+            KEY `FKod9tsamp0p54ko9vk9fwusrig` (`jobtitleid`),
+            CONSTRAINT `FK9hga8iyrt1lh8ofyic3lb0792` FOREIGN KEY (`countryid`) REFERENCES `country` (`id`),
+            CONSTRAINT `FKdququtwg0blqbvnpwhhd8g3jf` FOREIGN KEY (`stateid`) REFERENCES `state` (`id`),
+            CONSTRAINT `FKe1h4f2i4kb3hdr67guoeyg16h` FOREIGN KEY (`employeetypeid`) REFERENCES `employee_type` (`id`),
+            CONSTRAINT `FKod9tsamp0p54ko9vk9fwusrig` FOREIGN KEY (`jobtitleid`) REFERENCES `job_title` (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

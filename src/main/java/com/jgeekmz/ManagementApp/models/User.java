@@ -3,10 +3,13 @@ package com.jgeekmz.ManagementApp.models;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.jgeekmz.ManagementApp.controllers.LoginController;
 import lombok.Data;
 import lombok.NonNull;
 
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -14,6 +17,14 @@ import javax.validation.constraints.Size;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.annotation.Transient;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.WebAttributes;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.*;
 
@@ -59,6 +70,8 @@ public class User {
     @Column(name = "banned")
     @JsonIgnore
     private boolean banned;
+
+    private String test;
 
     @Column(name = "confirmation_token")
     private String confirmationToken;
@@ -193,6 +206,5 @@ public class User {
     public void setRoles(final Collection<Role> roles) {
         this.roles = roles;
     }
-
 
 }

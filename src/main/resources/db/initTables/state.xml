@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- changes to be included -->
+    <changeSet id="5" author="zlatkov">
+        <sql>CREATE TABLE `state` (
+            `id` int NOT NULL AUTO_INCREMENT,
+            `capital` varchar(255) DEFAULT NULL,
+            `code` varchar(255) DEFAULT NULL,
+            `countryid` int DEFAULT NULL,
+            `details` varchar(255) DEFAULT NULL,
+            `city` varchar(255) DEFAULT NULL,
+            `created_by` varchar(255) DEFAULT NULL,
+            `created_date` datetime(6) DEFAULT NULL,
+            `last_modified_by` varchar(255) DEFAULT NULL,
+            `last_modified_date` datetime(6) DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            KEY `FK26mi9hxhe1phwyqkvwb4ygot5` (`countryid`),
+            CONSTRAINT `FK26mi9hxhe1phwyqkvwb4ygot5` FOREIGN KEY (`countryid`) REFERENCES `country` (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

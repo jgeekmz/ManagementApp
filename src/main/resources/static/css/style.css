@@ -6730,23 +6730,16 @@ ul.inbox-pagination li {
 
     padding: 40px 110px;
 
-
-
     font-size: 16px;
 
     font-weight: 300;
-
 }
-
 
 
 .bio-graph-info {
 
     color: #89817e;
-
 }
-
-
 
 .bio-graph-info h1 {
 
@@ -6755,9 +6748,7 @@ ul.inbox-pagination li {
     font-weight: 300;
 
     margin: 0 0 20px;
-
 }
-
 
 
 .bio-row {
@@ -6769,7 +6760,6 @@ ul.inbox-pagination li {
     margin-bottom: 10px;
 
     padding:0 15px;
-
 }
 
 
@@ -6780,6 +6770,7 @@ ul.inbox-pagination li {
 
     display: inline-block;
 
+    white-space: nowrap;
 }
 
 

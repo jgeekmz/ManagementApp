@@ -1,7 +1,6 @@
 package com.jgeekmz.ManagementApp.repositories;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.jgeekmz.ManagementApp.models.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;

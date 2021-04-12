@@ -267,7 +267,7 @@
             <a data-toggle="dropdown" class="dropdown-toggle" th:src="@{'/img/photos/' + ${#authentication.getPrincipal().getUsername()} +'.jpg'}">
                 <span class="profile-ava"> <img alt="" th:src="@{'/img/photos/' + ${#authentication.getPrincipal().getUsername()} +'.jpg'}" height="38" width="38"></span>
                 <span class="username" th:text="${#authentication.getPrincipal().getUsername()}">User</span><b class="caret"></b>
-            </a>das
+            </a>
             <ul class="dropdown-menu extended logout">
               <div class="log-arrow-up"></div>
               <li class="eborder-top"><a th:href="@{/profile}"><i class="icon_profile"></i> My Profile</a></li>
@@ -407,6 +407,7 @@
     <!--sidebar end-->
 
     <!--main content start-->
+
     <section id="main-content">
       <section class="wrapper">
         <!--overview start-->
@@ -420,28 +421,14 @@
           </div>
         </div>
 
-        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-          <div class="info-box brown-bg">
-            <div class="weather">
-                <h5>Current Weather Conditions: </h5>
-                <p th:text="${currentWeather.description}">Description</p>
-            </div>
-            <div class="row">
-              <h5>Temperature</h5>
-              <p th:text="${currentWeather.temperature} + ' &#8457;'">Temperature</p>
-            </div>
-            <div class="row">
-              <h5>Feels Like</h5>
-              <p th:text="${currentWeather.feelsLike} + ' &#8457;'">Feels Like</p>
-            </div>
-            <div class="row">
-              <h5>Wind Speed</h5>
-              <p th:text="${currentWeather.windSpeed} + ' mph'"></p>
-            </div>
-          </div>
-        </div>
-
         <div class="row">
+          <!--<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <a class="weatherwidget-io" href="https://forecast7.com/en/42d0223d09/blagoevgrad/" data-label_1="BLAGOEVGRAD" data-label_2="WEATHER" data-theme="original" >BLAGOEVGRAD WEATHER</a>
+          </div>
+          <script>
+            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+          </script>-->
+
           <!--<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
             <div class="info-box blue-bg">
               <i class="fa fa-cloud-download"></i>
@@ -451,6 +438,27 @@
             <!--/.info-box-->
          <!-- </div> -->
           <!--/.col-->
+
+          <!--<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <div class="info-box brown-bg">
+              <div class="weather">
+                <h5>Current Weather Conditions: </h5>
+                <p th:text="${currentWeather.description}">Description</p>
+              </div>
+              <div class="row">
+                <h5>Temperature</h5>
+                <p th:text="${currentWeather.temperature} + ' &#8457;'">Temperature</p>
+              </div>
+              <div class="row">
+                <h5>Feels Like</h5>
+                <p th:text="${currentWeather.feelsLike} + ' &#8457;'">Feels Like</p>
+              </div>
+              <div class="row">
+                <h5>Wind Speed</h5>
+                <p th:text="${currentWeather.windSpeed} + ' mph'"></p>
+              </div>
+            </div>
+          </div>-->
 
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
             <div class="info-box brown-bg">
@@ -537,14 +545,15 @@
 
             </div>
           </div>
-          <div class="col-md-3">
-            <!-- List starts -->
+
+          <!-- List starts -->
+        <!--  <div class="col-md-3">
             <ul class="today-datas">
-              <!-- List #1 -->
+              &lt;!&ndash; List #1 &ndash;&gt;
               <li>
-                <!-- Graph -->
+                &lt;!&ndash; Graph &ndash;&gt;
                 <div><span id="todayspark1" class="spark"></span></div>
-                <!-- Text -->
+                &lt;!&ndash; Text &ndash;&gt;
                 <div class="datas-text">11,500 visitors/day</div>
               </li>
               <li>
@@ -564,7 +573,7 @@
                 <div class="datas-text">12,000000 visitors every Month</div>
               </li>
             </ul>
-          </div>
+          </div>-->
 
 
         </div>
@@ -961,8 +970,7 @@
                 <div class="padd">
                   <!-- Edit profile form -->
                   <div class="form quick-post">
-                    <form class="form-horizontal" id="post-form" th:action="@{/index/addNewPost}" method="post" >
-
+                    <form class="form-horizontal" id="post-form" th:action="@{/index/addNewPost}" method="post">
                       <!-- Date -->
                       <div class="form-group">
                         <label class="control-label col-lg-2" for="postDate">Date</label>
@@ -970,7 +978,6 @@
                           <input type="date" class="form-control" id="postDate" name="postDate" placeholder="Post Date">
                         </div>
                       </div>
-
                       <!-- Title -->
                       <div class="form-group">
                         <label class="control-label col-lg-2" for="title">Title</label>
@@ -978,7 +985,6 @@
                           <input type="text" class="form-control" id="title"  name="title">
                         </div>
                       </div>
-
                       <!-- Content -->
                       <div class="form-group">
                         <label class="control-label col-lg-2" for="content">Content</label>
@@ -986,7 +992,6 @@
                           <input type="text" class="form-control" id="content"  name="content">
                         </div>
                       </div>
-
                       <!-- Category -->
                       <div class="form-group">
                         <label class="control-label col-lg-2">Category</label>
@@ -1000,7 +1005,6 @@
                           </select>
                         </div>
                       </div>
-
                       <!-- Buttons -->
                       <div class="form-group">
                         <!-- Buttons -->
@@ -1012,7 +1016,6 @@
                       </div>
                     </form>
                   </div>
-
 
                 </div>
                 <div class="widget-foot">

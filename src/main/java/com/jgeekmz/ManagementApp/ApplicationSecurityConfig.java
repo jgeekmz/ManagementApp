@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -33,6 +34,7 @@ import java.io.PrintWriter;
 @Configuration
 @ComponentScan(basePackages = { "com.jgeekmz.ManagementApp.security" })
 @EnableWebSecurity
+@PropertySource("classpath:application.properties")
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     private final Logger log = LoggerFactory.getLogger(ApplicationSecurityConfig.class);
 
@@ -127,7 +129,6 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                     .deleteCookies("JSESSIONID")
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                     .logoutSuccessUrl("/login");
-
     }
 
     @Bean

@@ -1,0 +1,4 @@
+"id","banned","confirmation_token","email","firstname","lastname","password","username","enabled","reset_password_token","reg_date","test"
+1,"0","","springbootjgeek@gmail.com","Martin","Zlatkov","$2a$10$8Eh/.WDPNnmHQMz8QL0sRue0M2jYayRW4wczeC1bnGscpmKomxj8G","jgeek",1,"","",""
+13,"0","","mitrev@abv.bg","Ivan","Mitrev","$2a$10$XdtrtZwhnloSQQ0oZB8KSetfyeRO4Nu77hDdvmX8CoGGWLTiSu3wa","mitrev",1,"","",""
+26,"0","","martin_zlatkov_@abv.bg","Ivan","Ivanov","$2a$10$ncw26Ozn0oo28Oy37txkt.yG8lUpfFesQJGa1QzdSswZ8oY14Xrtm","krek",1,"","",""

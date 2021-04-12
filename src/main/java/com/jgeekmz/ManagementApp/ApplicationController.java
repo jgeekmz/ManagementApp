@@ -55,11 +55,11 @@ public class ApplicationController {
 
         // count of not active users
         model.addAttribute("tactiveUsers", userRepository.countByID(id));
-        if (true) {
+       /* if (true) {
             model.addAttribute("currentWeather", liveWeatherService.getCurrentWeather("Sofia","bg"));
         } else {
             model.addAttribute("currentWeather", stubWeatherService.getCurrentWeather("Detroit","us"));
-        }
+        }*/
         //model.addAttribute("currentWeather", currentWeather);
         return "index";
     }

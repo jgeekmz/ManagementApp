@@ -20,8 +20,10 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
+
     private final static Logger log = LoggerFactory.getLogger(LoginController.class);
-    private final UserRepository userRepository;
+
+    public  UserRepository userRepository;
 
     @Autowired
     public LoginController(UserRepository userRepository) {
@@ -31,15 +33,16 @@ public class LoginController {
     @GetMapping("/login")
     public String login() { return "login"; }
 
+
     @GetMapping("/login-error")
-    public RedirectView loginError(Model model, HttpServletRequest request, RedirectAttributes redir, User user) {
+    public RedirectView loginError (Model model, HttpServletRequest request, RedirectAttributes redir, LoginController loginController) {
         HttpSession session = request.getSession(false);
         String errorMessage = null;
         String s = (String) session.getAttribute(String.valueOf(session));
-        String usrName = user.getUsername();
-        User check = userRepository.findByUsername(usrName);
+        String usrName = request.getRemoteUser();
+        User check = loginController.userRepository.findByUsername(usrName);
 
-        
+
         if (session != null) {
             String k = (String) session.getAttribute(String.valueOf(session));
             AuthenticationException ex = (AuthenticationException) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
+import java.text.MessageFormat;
 import java.util.*;
 
 @Controller
@@ -52,7 +53,6 @@ public class UserController {
         return userService.findById(id);
     }
 
-
     //@GetMapping("/users/checkUser")
     @RequestMapping(value = "/login/checkUser", method = RequestMethod.POST)
     @ResponseBody
@@ -61,6 +61,7 @@ public class UserController {
         RedirectView redirectViewTwo = new RedirectView("/index", true);
         redir.addFlashAttribute("messageUserNotExist", "User is not being registered!");
         //redir.addFlashAttribute("messageUserExist", "User already exist!");
+
         return redirectView;
     }
 
@@ -70,7 +71,6 @@ public class UserController {
         //save new user to db
         Date dt = new Date();
         user.setRegDate(dt);
-
         userService.save(user);
         return REDIRECT;
     }
@@ -100,8 +100,13 @@ public class UserController {
         String v3 = "java";
 
         boolean result = encoder.matches(v3, v2);
-
         log.info("Result >>>> " + result);
+        System.out.println(MessageFormat.format("PRINTING USER ROLE: {0} : {1}", user.getUsername(), user.getRoles().toString()));
+        ArrayList<Role> rl = new ArrayList<>(user.getRoles());
+        List<Role> list = new LinkedList<Role>((rl));
+        System.out.println("LIST >>> " + list);
+        user.setRoles(list);
+
 
         userService.save(user);
         return REDIRECT;
