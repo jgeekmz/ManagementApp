@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmployeeService {
+
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -28,39 +29,49 @@ public class EmployeeService {
         this.userRepo = userRepo;
     }
 
-        //Get All Employees
-    public List<Employee> findAll(){
+    /**
+     * Get All Employees
+     */
+    public List<Employee> findAll() {
         return employeeRepository.findAll();
     }
 
-    //Get Employee By Id
+    /**
+     * Get Employee By Id
+     */
     public Optional<Employee> findById(int id) {
         return employeeRepository.findById(id);
     }
 
-    //Delete Employee
+    /**
+     * Delete Employee
+     */
     public void delete(int id) {
         employeeRepository.deleteById(id);
     }
 
-    //Update Employee
+    /**
+     * Update Employee
+     */
     public void save(Employee employee) {
         employeeRepository.save(employee);
     }
 
-    //Get Employee by username
+    /**
+     * Get Employee by username
+     */
     public Employee findByUsername(String un) {
         return employeeRepository.findByUsername(un);
     }
 
-    //Find employee by id
+    /** Find employee by id */
     public List<User> assignUsername(int id) {
-      // try {
-           Employee emp = employeeRepository.findById(id).orElse(null);
-           //List<User> user = userRepo.findByFirstnameAndLastname(emp.getFirstname(), emp.getLastname());
+        // try {
+        Employee emp = employeeRepository.findById(id).orElse(null);
+        //List<User> user = userRepo.findByFirstnameAndLastname(emp.getFirstname(), emp.getLastname());
 
-          // List<User> userList = (List<User>) userService.findByNames(emp.getFirstname(), emp.getLastname());
-           //log.info(String.valueOf(user));
+        // List<User> userList = (List<User>) userService.findByNames(emp.getFirstname(), emp.getLastname());
+        //log.info(String.valueOf(user));
 
            /*if (user == null) {
                // TODO
@@ -72,9 +83,9 @@ public class EmployeeService {
            } else if (user != null && user.size() > 1){
 
            }*/
-      // } catch (Exception e) {
-       //    throw new UserNotFoundException("We have more than one user with those names!");
-       //}
+        // } catch (Exception e) {
+        //    throw new UserNotFoundException("We have more than one user with those names!");
+        //}
 
         return userRepo.findByFirstnameAndLastname(emp.getFirstname(), emp.getLastname());
     }
