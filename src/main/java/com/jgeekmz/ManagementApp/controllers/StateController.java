@@ -18,7 +18,7 @@ public class StateController {
     @Autowired private CountryService countryService;
 
     //Get All States
-    @GetMapping("states")
+    @GetMapping("/states")
     public String findAll(Model model){
         model.addAttribute("states", stateService.findAll());
         model.addAttribute("countries", countryService.findAll());

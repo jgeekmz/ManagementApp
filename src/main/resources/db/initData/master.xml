@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- changes to be included -->
+    <changeSet id="2" author="zlatko data">
+        <loadData encoding="UTF-8"
+                  file="db/initData/user.csv"
+                  separator=","
+                  tableName="user"
+                  schemaName="jgeekdb">
+        </loadData>
+        <loadData encoding="UTF-8"
+                  file="db/initData/roles.csv"
+                  separator=","
+                  tableName="roles"
+                  schemaName="jgeekdb">
+        </loadData>
+        <loadData encoding="UTF-8"
+                  file="db/initData/users_roles.csv"
+                  separator=","
+                  tableName="users_roles"
+                  schemaName="jgeekdb">
+        </loadData>
+
+        <!--
+        <loadData encoding="UTF-8"
+                  file="db/initData/country.csv"
+                  separator=","
+                  tableName="country"
+                  schemaName="jgeekdb">
+        </loadData>
+        <loadData encoding="UTF-8"
+                  file="db/initData/state.csv"
+                  separator=","
+                  tableName="state"
+                  schemaName="jgeekdb">
+        </loadData>
+        <loadData encoding="UTF-8"
+                  file="db/initData/employee.csv"
+                  separator=","
+                  tableName="employee"
+                  schemaName="jgeekdb">
+        </loadData>
+                        -->
+    </changeSet>
+</databaseChangeLog>

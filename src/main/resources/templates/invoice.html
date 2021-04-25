@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
   <meta charset="utf-8">
@@ -261,9 +261,9 @@
           <!-- user login dropdown start-->
           <li class="dropdown">
               <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="profile-ava">
+                  <span class="profile-ava">
                     <img alt="" th:src="@{'/img/photos/' + ${#authentication.getPrincipal().getUsername()} +'.jpg'}" height="38" width="38">
-                            </span>
+                  </span>
                   <span class="username" th:text="${#authentication.getPrincipal().getUsername()}">User</span>
                   <b class="caret"></b>
               </a>
@@ -385,6 +385,19 @@
                       </ul>
                   </li>
 
+                  <li class="sub-menu" sec:authorize="hasRole('ADMIN')" >
+                      <a href="javascript:;" class="">
+                          <i class="icon_book"></i>
+                          <span  >Users</span>
+                          <span class="menu-arrow arrow_carrot-right"></span>
+                      </a>
+                      <ul class="sub" >
+                          <li><a class="" th:href="@{/users}">Registered Users</a></li>
+                          <li><a class="" th:href="@{/activations}">User Activation</a></li>
+                          <li><a class="" th:href="@{/usersReports}">Users Reports</a></li>
+                      </ul>
+                  </li>
+
                   <li class="sub-menu">
                       <a href="javascript:;" class="">
                           <i class="icon_book"></i>
@@ -411,7 +424,7 @@
           <div class="col-lg-12">
             <h3 class="page-header"><i class="fa fa fa-bars"></i> Pages</h3>
             <ol class="breadcrumb">
-              <li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
+              <li><i class="fa fa-home"></i><a th:href="@{/index}">Home</a></li>
               <li><i class="fa fa-bars"></i>Pages</li>
               <li><i class="fa fa-square-o"></i>Pages</li>
             </ol>
@@ -476,7 +489,6 @@
                       </button>
                   </div>
                   <div class="modal-body">
-
                       <div class="form-group">
                           <label for="idAdd" class="col-form-label">Id:</label>
                           <input type="text" class="form-control" id="idAdd" name="id" disabled>

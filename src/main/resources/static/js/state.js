@@ -1,6 +1,3 @@
-/**
- * 
- */
 
 $('document').ready(function() {
 	
@@ -10,7 +7,7 @@ $('document').ready(function() {
 		$.get(href, function(state, status){
 			$('#idEdit').val(state.id);
 			$('#ddlCountryEdit').val(state.countryid);
-			$('#nameEdit').val(state.name);
+			$('#cityEdit').val(state.city);
 			$('#detailsEdit').val(state.details);
 		});			
 		$('#editModal').modal();		
@@ -22,7 +19,7 @@ $('document').ready(function() {
 		$.get(href, function(state, status){
 			$('#idDetails').val(state.id);
 			$('#ddlCountryDetails').val(state.countryid);			
-			$('#nameDetails').val(state.name);
+			$('#cityDetails').val(state.city);
 			$('#detailsDetails').val(state.details);
 			$('#lastModifiedByDetails').val(state.lastModifiedBy);
 			$('#lastModifiedDateDetails').val(state.lastModifiedDate.substr(0,19).replace("T", " "));

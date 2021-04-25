@@ -1,6 +1,5 @@
 package com.jgeekmz.ManagementApp.models;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,11 +18,12 @@ import lombok.NoArgsConstructor;
 //@NoArgsConstructor
 //@AllArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class State {
+public class State extends Auditable<String> {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
+    private String city;
     private String capital;
     private String code;
 
@@ -34,9 +34,9 @@ public class State {
 
     private String details;
 
-    public State(Integer id, String name, String capital, String code, Country country, Integer countryid, String details) {
+    public State(Integer id, String city, String capital, String code, Country country, Integer countryid, String details) {
         this.id = id;
-        this.name = name;
+        this.city = city;
         this.capital = capital;
         this.code = code;
         this.country = country;
@@ -55,12 +55,12 @@ public class State {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getCity() {
+        return city;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getCapital() {

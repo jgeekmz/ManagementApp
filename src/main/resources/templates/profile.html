@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
   <meta charset="utf-8">
@@ -42,7 +42,7 @@
       </div>
 
       <!--logo start-->
-      <a href="index.html" class="logo">Nice <span class="lite">Admin</span></a>
+      <a href="index.html" class="logo">JGEEK <span class="lite">Management System</span></a>
       <!--logo end-->
 
       <div class="nav search-row" id="top_menu">
@@ -58,11 +58,11 @@
       </div>
 
       <div class="top-nav notification-row">
-        <!-- notificatoin dropdown start-->
+        <!-- notification dropdown start-->
         <ul class="nav pull-right top-menu">
 
-          <!-- task notificatoin start -->
-          <li id="task_notificatoin_bar" class="dropdown">
+          <!-- task notification start -->
+          <li id="task_notification_bar" class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <i class="icon-task-l"></i>
                             <span class="badge bg-important">5</span>
@@ -145,9 +145,9 @@
               </li>
             </ul>
           </li>
-          <!-- task notificatoin end -->
-          <!-- inbox notificatoin start-->
-          <li id="mail_notificatoin_bar" class="dropdown">
+          <!-- task notification end -->
+          <!-- inbox notification start-->
+          <li id="mail_notification_bar" class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <i class="icon-envelope-l"></i>
                             <span class="badge bg-important">5</span>
@@ -210,9 +210,9 @@
               </li>
             </ul>
           </li>
-          <!-- inbox notificatoin end -->
+          <!-- inbox notification end -->
           <!-- alert notification start-->
-          <li id="alert_notificatoin_bar" class="dropdown">
+          <li id="alert_notification_bar" class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
 
                             <i class="icon-bell-l"></i>
@@ -257,14 +257,13 @@
             </ul>
           </li>
           <!-- alert notification end-->
-          <!-- user login dropdown start-->
+
+            <!-- user login dropdown start-->
           <li class="dropdown">
-            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="profile-ava">
-                                <img alt="" src="img/avatar1_small.jpg">
-                            </span>
-                            <span class="username">Jenifer Smith</span>
-                            <b class="caret"></b>
+            <a data-toggle="dropdown" class="dropdown-toggle" th:src="@{'/img/photos/' + ${#authentication.getPrincipal().getUsername()} +'.jpg'}">
+                <span class="profile-ava"><img alt="" th:src="@{'/img/photos/' + ${#authentication.getPrincipal().getUsername()} +'.jpg'}" height="38" width="38"></span>
+                <span class="username" th:text="${#authentication.getPrincipal().getUsername()}">User</span>
+                <b class="caret"></b>
                         </a>
             <ul class="dropdown-menu extended logout">
               <div class="log-arrow-up"></div>
@@ -293,7 +292,7 @@
           </li>
           <!-- user login dropdown end -->
         </ul>
-        <!-- notificatoin dropdown end-->
+        <!-- notification dropdown end-->
       </div>
     </header>
     <!--header end-->
@@ -384,6 +383,19 @@
                       </ul>
                   </li>
 
+                  <li class="sub-menu" sec:authorize="hasRole('ADMIN')" >
+                      <a href="javascript:;" class="">
+                          <i class="icon_book"></i>
+                          <span  >Users</span>
+                          <span class="menu-arrow arrow_carrot-right"></span>
+                      </a>
+                      <ul class="sub" >
+                          <li><a class="" th:href="@{/users}">Registered Users</a></li>
+                          <li><a class="" th:href="@{/activations}">User Activation</a></li>
+                          <li><a class="" th:href="@{/usersReports}">Users Reports</a></li>
+                      </ul>
+                  </li>
+
                   <li class="sub-menu">
                       <a href="javascript:;" class="">
                           <i class="icon_book"></i>
@@ -410,7 +422,7 @@
           <div class="col-lg-12">
             <h3 class="page-header"><i class="fa fa-user-md"></i> Profile</h3>
             <ol class="breadcrumb">
-              <li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
+              <li><i class="fa fa-home"></i><a th:href="@{/index}">Home</a></li>
               <li><i class="icon_documents_alt"></i>Pages</li>
               <li><i class="fa fa-user-md"></i>Profile</li>
             </ol>
@@ -422,21 +434,23 @@
             <div class="profile-widget profile-widget-info">
               <div class="panel-body">
                 <div class="col-lg-2 col-sm-2">
-                  <h4>Jenifer Smith</h4>
+                  <h4 th:text="${firstName} + ' ' + ${lastName}">User</h4>
                   <div class="follow-ava">
-                    <img src="img/profile-widget-avatar.jpg" alt="">
+                      <img alt="" th:src="@{'/img/photos/' + ${#authentication.getPrincipal().getUsername()} +'.jpg'}" height="30" width="30">
                   </div>
                   <h6>Administrator</h6>
                 </div>
                 <div class="col-lg-4 col-sm-4 follow-info">
-                  <p>Hello I’m Jenifer Smith, a leading expert in interactive and creative design.</p>
+                  <p th:text="${firstName} + ' ' + ${lastName}" >Hello I’m Jenifer Smith, a leading expert in interactive and creative design.</p>
                   <p>@jenifersmith</p>
                   <p><i class="fa fa-twitter">jenifertweet</i></p>
                   <h6>
-                                    <span><i class="icon_clock_alt"></i>11:05 AM</span>
-                                    <span><i class="icon_calendar"></i>25.10.13</span>
-                                    <span><i class="icon_pin_alt"></i>NY</span>
-                                </h6>
+                      <span><i class="icon_clock_alt"></i></span>
+                      <span th:text="${#dates.format(#dates.createNow(), 'HH:mm')}"></span>
+                      <span><i class="icon_calendar"></i></span>
+                      <span th:text="${#dates.format(#dates.createNow(), 'dd MMM yyyy a')}"></span>
+                      <span><i class="icon_pin_alt"></i>NY</span>
+                  </h6>
                 </div>
                 <div class="col-lg-2 col-sm-6 follow-info weather-category">
                   <ul>
@@ -453,6 +467,7 @@
 
                       <i class="fa fa-bell fa-2x"> </i><br> Contrary to popular belief, Lorem Ipsum is not simply
                     </li>
+
 
                   </ul>
                 </div>
@@ -473,28 +488,21 @@
         <div class="row">
           <div class="col-lg-12">
             <section class="panel">
+
               <header class="panel-heading tab-bg-info">
                 <ul class="nav nav-tabs">
                   <li class="active">
-                    <a data-toggle="tab" href="#recent-activity">
-                                          <i class="icon-home"></i>
-                                          Daily Activity
-                                      </a>
+                    <a data-toggle="tab" href="#recent-activity"><i class="icon-home"></i>Daily Activity</a>
                   </li>
                   <li>
-                    <a data-toggle="tab" href="#profile">
-                                          <i class="icon-user"></i>
-                                          Profile
-                                      </a>
+                    <a data-toggle="tab" href="#profile" ><i class="icon-user"></i>Profile Details</a>
                   </li>
                   <li class="">
-                    <a data-toggle="tab" href="#edit-profile">
-                                          <i class="icon-envelope"></i>
-                                          Edit Profile
-                                      </a>
+                    <a data-toggle="tab" href="#edit-profile"><i class="icon-envelope"></i>Edit Profile</a>
                   </li>
                 </ul>
               </header>
+
               <div class="panel-body">
                 <div class="tab-content">
                   <div id="recent-activity" class="tab-pane active">
@@ -600,105 +608,118 @@
 
                     </div>
                   </div>
-                  <!-- profile -->
+
+                  <!-- profile details -->
                   <div id="profile" class="tab-pane">
                     <section class="panel">
                       <div class="bio-graph-heading">
                         Hello I’m Jenifer Smith, a leading expert in interactive and creative design specializing in the mobile medium. My graduation from Massey University with a Bachelor of Design majoring in visual communication.
                       </div>
                       <div class="panel-body bio-graph-info">
-                        <h1>Bio Graph</h1>
+                        <h1>Profile Details</h1>
                         <div class="row">
                           <div class="bio-row">
-                            <p><span>First Name </span>: Jenifer </p>
+                            <p>First Name   : <span th:text="'' +  ${firstName}"></span></p>
                           </div>
                           <div class="bio-row">
-                            <p><span>Last Name </span>: Smith</p>
+                            <p th:text="'Last Name : '+ ${lastName}"></p>
                           </div>
                           <div class="bio-row">
-                            <p><span>Birthday</span>: 27 August 1987</p>
+                            <p>Date of Birth  : <span th:text="${m}"></span></p>
                           </div>
                           <div class="bio-row">
-                            <p><span>Country </span>: United</p>
+                            <p>Country   : <span th:text="${g}"></span></p>
                           </div>
                           <div class="bio-row">
-                            <p><span>Occupation </span>: UI Designer</p>
+                            <p>Hired Date   :<span th:text="${p}"></span></p>
                           </div>
                           <div class="bio-row">
-                            <p><span>Email </span>:jenifer@mailname.com</p>
+                            <p>Email   : <span th:text="${email}"></span></p>
                           </div>
                           <div class="bio-row">
-                            <p><span>Mobile </span>: (+6283) 456 789</p>
+                            <p>Mobile   : <span th:text="${k}"></span></p>
                           </div>
                           <div class="bio-row">
-                            <p><span>Phone </span>: (+021) 956 789123</p>
+                            <p>Address   :  <span  class="nowrap" th:text="${t}"></span></p>
                           </div>
                         </div>
                       </div>
                     </section>
-                    <section>
+
+
+                      <section>
                       <div class="row">
                       </div>
                     </section>
                   </div>
-                  <!-- edit-profile -->
+
+                  <!-- edit-profile starts here -->
                   <div id="edit-profile" class="tab-pane">
                     <section class="panel">
                       <div class="panel-body bio-graph-info">
                         <h1> Profile Info</h1>
-                        <form class="form-horizontal" role="form">
+                        <form class="form-horizontal" role="form" th:action="@{/profile/editDetails}" method="post">
+
                           <div class="form-group">
                             <label class="col-lg-2 control-label">First Name</label>
                             <div class="col-lg-6">
-                              <input type="text" class="form-control" id="f-name" placeholder=" ">
+                              <input type="text" class="form-control" id="firstname" name="firstname" placeholder=" ">
                             </div>
                           </div>
+
                           <div class="form-group">
                             <label class="col-lg-2 control-label">Last Name</label>
                             <div class="col-lg-6">
-                              <input type="text" class="form-control" id="l-name" placeholder=" ">
+                              <input type="text" class="form-control" id="l-name" name="" placeholder=" ">
                             </div>
                           </div>
+
                           <div class="form-group">
                             <label class="col-lg-2 control-label">About Me</label>
                             <div class="col-lg-10">
-                              <textarea name="" id="" class="form-control" cols="30" rows="5"></textarea>
+                              <textarea name="" id="aboutMe" class="form-control" cols="30" rows="5"></textarea>
                             </div>
                           </div>
+
                           <div class="form-group">
                             <label class="col-lg-2 control-label">Country</label>
                             <div class="col-lg-6">
                               <input type="text" class="form-control" id="c-name" placeholder=" ">
                             </div>
                           </div>
+
                           <div class="form-group">
                             <label class="col-lg-2 control-label">Birthday</label>
                             <div class="col-lg-6">
                               <input type="text" class="form-control" id="b-day" placeholder=" ">
                             </div>
                           </div>
+
                           <div class="form-group">
                             <label class="col-lg-2 control-label">Occupation</label>
                             <div class="col-lg-6">
                               <input type="text" class="form-control" id="occupation" placeholder=" ">
                             </div>
                           </div>
+
                           <div class="form-group">
                             <label class="col-lg-2 control-label">Email</label>
                             <div class="col-lg-6">
                               <input type="text" class="form-control" id="email" placeholder=" ">
                             </div>
                           </div>
+
                           <div class="form-group">
                             <label class="col-lg-2 control-label">Mobile</label>
                             <div class="col-lg-6">
                               <input type="text" class="form-control" id="mobile" placeholder=" ">
                             </div>
                           </div>
+
                           <div class="form-group">
                             <label class="col-lg-2 control-label">Website URL</label>
                             <div class="col-lg-6">
-                              <input type="text" class="form-control" id="url" placeholder="http://www.demowebsite.com ">
+                              <input type="text" class="form-control" id="url" placeholder="http://www.your_website.com ">
                             </div>
                           </div>
 

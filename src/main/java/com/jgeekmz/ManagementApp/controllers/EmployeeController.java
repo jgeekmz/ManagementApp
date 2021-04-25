@@ -1,8 +1,14 @@
 package com.jgeekmz.ManagementApp.controllers;
 
+import com.jgeekmz.ManagementApp.exceptions.UserNotFoundException;
 import com.jgeekmz.ManagementApp.models.Employee;
 
+import com.jgeekmz.ManagementApp.models.User;
+import com.jgeekmz.ManagementApp.repositories.EmployeeRepository;
+import com.jgeekmz.ManagementApp.repositories.UserRepository;
 import com.jgeekmz.ManagementApp.services.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,17 +17,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class EmployeeController {
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
    @Autowired private EmployeeService employeeService;
-    private StateService stateService;
+   @Autowired private EmployeeRepository employeeRepository;
+   @Autowired private UserRepository rep;
+
+   private StateService stateService;
     private JobTitleService jobTitleService;
     private EmployeeTypeService employeeTypeService;
     private CountryService countryService;
@@ -91,18 +105,13 @@ public class EmployeeController {
 
     @PostMapping("/employees/uploadPhoto2")
     public String uploadFile2(@RequestParam("file") MultipartFile file, Principal principal) throws IllegalStateException, IOException {
-
-        System.out.println("Principal: " + principal.getName());
+        //System.out.println("Principal: " + principal.getName());
 
         String baseDirectory = "D:\\Downloads\\JGeekMZBootStrap\\src\\main\\resources\\static\\img\\photos\\";
-
         file.transferTo(new File(baseDirectory + principal.getName() + ".jpg"));
-
         return "redirect:/profile";
     }
 
-    //
-    //
     @RequestMapping(value = "/employees/profile")
     public String profile(Model model, Principal principal) {
         String un = principal.getName();
@@ -110,10 +119,30 @@ public class EmployeeController {
         return "redirect:/profile";
     }
 
-/*    // Assign Username to Employee
+    // Assign Username to Employee
     @RequestMapping(value = "/employees/assignUsername")
-    public String assignUsername(int id) {
-        employeeService.assignUsername(id);
+    public String assignUsername(int id, RedirectAttributes redirectAttributes) {
+        Employee emp = employeeRepository.findById(id).orElse(null);
+        String firstname = emp.getFirstname();
+        String lastname = emp.getLastname();
+        String userName = rep.findUsernameByFirstnameAndLastname(firstname,lastname);
+        System.out.println(userName);
+        List<User> userFound =  employeeService.assignUsername(id);
+
+        if (userFound.isEmpty()) {
+            emp.setUsername("No user found!");
+            employeeRepository.save(emp);
+        } else if (userFound != null && userFound.size() == 1) {
+            emp.setUsername(String.valueOf(userName));
+            employeeRepository.save(emp);
+        } else if (userFound != null && userFound.size() > 1){
+            redirectAttributes.addFlashAttribute("msg", "More then one user!");
+            return "redirect:/employees";
+           //throw new UserNotFoundException("We have more than one user with those names!");
+        }
+
+        //model.addAttribute("msg", "More then one user!");
         return "redirect:/employees";
-    }*/
+        //return "employee";
+    }
 }

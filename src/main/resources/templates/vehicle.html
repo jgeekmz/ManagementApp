@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="utf-8">
@@ -7,8 +7,10 @@
     <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
     <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
     <link rel="shortcut icon" href="img/favicon.png">
+
     <title>Vehicle Management Page</title>
     <!-- Bootstrap CSS -->
+
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-theme.css" rel="stylesheet">
     <link href="css/elegant-icons-style.css" rel="stylesheet"/>
@@ -202,9 +204,9 @@
                         </li>
                     </ul>
                 </li>
-                <!-- inbox notificatoin end -->
+                <!-- inbox notification end -->
                 <!-- alert notification start-->
-                <li id="alert_notificatoin_bar" class="dropdown">
+                <li id="alert_notification_bar" class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
 
                         <i class="icon-bell-l"></i>
@@ -366,6 +368,19 @@
                     </ul>
                 </li>
 
+                <li class="sub-menu" sec:authorize="hasRole('ADMIN')" >
+                    <a href="javascript:;" class="">
+                        <i class="icon_book"></i>
+                        <span  >Users</span>
+                        <span class="menu-arrow arrow_carrot-right"></span>
+                    </a>
+                    <ul class="sub" >
+                        <li><a class="" th:href="@{/users}">Registered Users</a></li>
+                        <li><a class="" th:href="@{/activations}">User Activation</a></li>
+                        <li><a class="" th:href="@{/usersReports}">Users Reports</a></li>
+                    </ul>
+                </li>
+
                 <li class="sub-menu">
                     <a href="javascript:;" class="">
                         <i class="icon_book"></i>
@@ -392,7 +407,7 @@
                 <div class="col-lg-12">
                     <h3 class="page-header"><i class="fa fa fa-bars"></i> Pages</h3>
                     <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
+                        <li><i class="fa fa-home"></i><a th:href="@{/index}">Home</a></li>
                         <li><i class="fa fa-bars"></i>Pages</li>
                         <li><i class="fa fa-square-o"></i>Pages</li>
                     </ol>
@@ -423,15 +438,9 @@
                                 <td th:text="${vehicle.acquisitionDate}">Acquisition Date</td>
                                 <td>
                                     <div class="btn-group">
-                                        <a class="btn btn-primary" id="editButton"
-                                           th:href="@{/vehicles/findById/(id=${vehicle.id})}"><i
-                                                class="icon_pencil-edit"></i></a>
-                                        <a class="btn btn-success" id="detailsButton"
-                                           th:href="@{/vehicles/findById/(id=${vehicle.id})}"><i
-                                                class="icon_document_alt"></i></a>
-                                        <a class="btn btn-danger" id="deleteButton"
-                                           th:href="@{/vehicles/delete/(id=${vehicle.id})}"><i
-                                                class="icon_close_alt2"></i></a>
+                                        <a class="btn btn-primary" id="editButton" th:href="@{/vehicles/findById/(id=${vehicle.id})}"><i class="icon_pencil-edit"></i></a>
+                                        <a class="btn btn-success" id="detailsButton" th:href="@{/vehicles/findById/(id=${vehicle.id})}"><i class="icon_document_alt"></i></a>
+                                        <a class="btn btn-danger" id="deleteButton" th:href="@{/vehicles/delete/(id=${vehicle.id})}"><i class="icon_close_alt2"></i></a>
                                     </div>
                                 </td>
                             </tr>
@@ -471,8 +480,8 @@
                                 <div class="form-group row">
                                     <label for="ddlVehicleTypeAdd" class="col-sm-4 col-form-label">Vehicle Type: </label>
                                     <div class="col-sm-6">
-                                        <select class="form-control" id="ddlVehicleTypeAdd" name="vehicletypeid">
-                                            <option>-SELECT-</option>
+                                        <select class="form-control" id="ddlVehicleTypeAdd" name="vehicletypeid" required>
+                                            <option value="">-SELECT-</option>
                                             <option th:each="vehicleType : ${vehicleTypes}"
                                                     th:value="${vehicleType.id}"
                                                     th:text="${vehicleType.description}">
@@ -514,8 +523,8 @@
                                 <div class="form-group row">
                                     <label for="ddlVehicleMakeAdd" class="col-sm-4 col-form-label">Vehicle Make: </label>
                                     <div class="col-sm-6">
-                                        <select class="form-control" id="ddlVehicleMakeAdd" name="vehiclemakeid">
-                                            <option>-SELECT-</option>
+                                        <select class="form-control" id="ddlVehicleMakeAdd" name="vehiclemakeid" required>
+                                            <option value="">-SELECT-</option>
                                             <option th:each="vehicleMake : ${vehicleMakes}"
                                                     th:value="${vehicleMake.id}"
                                                     th:text="${vehicleMake.description}">

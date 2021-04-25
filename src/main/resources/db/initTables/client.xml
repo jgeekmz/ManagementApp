@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- changes to be included -->
+    <changeSet id="6" author="zlatkov">
+        <sql>
+            CREATE TABLE IF NOT EXISTS `client` (
+            `id` int NOT NULL AUTO_INCREMENT,
+            `address` varchar(255) DEFAULT NULL,
+            `city` varchar(255) DEFAULT NULL,
+            `countryid` int DEFAULT NULL,
+            `details` varchar(255) DEFAULT NULL,
+            `email` varchar(255) DEFAULT NULL,
+            `mobile` varchar(255) DEFAULT NULL,
+            `name` varchar(255) DEFAULT NULL,
+            `phone` varchar(255) DEFAULT NULL,
+            `stateid` int DEFAULT NULL,
+            `website` varchar(255) DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            KEY `FKdl2uu6vavuggmw39eqog9ka84` (`countryid`),
+            KEY `FKdhlcvwfpbu1g8mr22t95gfhha` (`stateid`),
+            CONSTRAINT `FKdhlcvwfpbu1g8mr22t95gfhha` FOREIGN KEY (`stateid`) REFERENCES `state` (`id`),
+            CONSTRAINT `FKdl2uu6vavuggmw39eqog9ka84` FOREIGN KEY (`countryid`) REFERENCES `country` (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

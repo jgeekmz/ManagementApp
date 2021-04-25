@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
   <meta charset="utf-8">
@@ -385,6 +385,19 @@
                       </ul>
                   </li>
 
+                  <li class="sub-menu" sec:authorize="hasRole('ADMIN')" >
+                      <a href="javascript:;" class="">
+                          <i class="icon_book"></i>
+                          <span  >Users</span>
+                          <span class="menu-arrow arrow_carrot-right"></span>
+                      </a>
+                      <ul class="sub" >
+                          <li><a class="" th:href="@{/users}">Registered Users</a></li>
+                          <li><a class="" th:href="@{/activations}">User Activation</a></li>
+                          <li><a class="" th:href="@{/usersReports}">Users Reports</a></li>
+                      </ul>
+                  </li>
+
                   <li class="sub-menu">
                       <a href="javascript:;" class="">
                           <i class="icon_book"></i>
@@ -411,7 +424,7 @@
           <div class="col-lg-12">
             <h3 class="page-header"><i class="fa fa fa-bars"></i> Pages</h3>
             <ol class="breadcrumb">
-              <li><i class="fa fa-home"></i><a href="index.html">Home</a></li>
+              <li><i class="fa fa-home"></i><a th:href="@{/index}">Home</a></li>
               <li><i class="fa fa-bars"></i>Pages</li>
               <li><i class="fa fa-square-o"></i>Pages</li>
             </ol>
@@ -514,11 +527,11 @@
                                   <div class="form-group row">
                                       <label for="ddlStateAdd" class="col-sm-4 col-form-label">State/Province: </label>
                                       <div class="col-sm-6">
-                                          <select class="form-control" id="ddlStateAdd" name="stateid">
-                                              <option>-SELECT-</option>
+                                          <select class="form-control" id="ddlStateAdd" name="stateid" required>
+                                              <option value="">-SELECT-</option>
                                               <option th:each="state : ${states}"
                                                       th:value="${state.id}"
-                                                      th:text="${state.name}">
+                                                      th:text="${state.city}">
                                               </option>
                                           </select>
                                       </div>
@@ -526,11 +539,11 @@
                                   <div class="form-group row">
                                       <label for="ddlCountryAdd" class="col-sm-4 col-form-label">Country: </label>
                                       <div class="col-sm-6">
-                                          <select class="form-control" id="ddlCountryAdd" name="countryid">
-                                              <option>-SELECT-</option>
+                                          <select class="form-control" id="ddlCountryAdd" name="countryid" required>
+                                              <option value="">-SELECT-</option>
                                               <option th:each="country : ${countries}"
                                                       th:value="${country.id}"
-                                                      th:text="${country.description}">
+                                                      th:text="${country.countryName}">
                                               </option>
                                           </select>
                                       </div>
@@ -627,11 +640,11 @@
                                       <div class="form-group row">
                                           <label for="ddlStateEdit" class="col-sm-4 col-form-label">State/Province: </label>
                                           <div class="col-sm-6">
-                                              <select class="form-control" id="ddlStateEdit" name="stateid">
-                                                  <option>-SELECT-</option>
+                                              <select class="form-control" id="ddlStateEdit" name="stateid" required>
+                                                  <option value="">-SELECT-</option>
                                                   <option th:each="state : ${states}"
                                                           th:value="${state.id}"
-                                                          th:text="${state.name}">
+                                                          th:text="${state.city}">
                                                   </option>
                                               </select>
                                           </div>
@@ -639,11 +652,11 @@
                                       <div class="form-group row">
                                           <label for="ddlCountryEdit" class="col-sm-4 col-form-label">Country: </label>
                                           <div class="col-sm-6">
-                                              <select class="form-control" id="ddlCountryEdit" name="countryid">
-                                                  <option>-SELECT-</option>
+                                              <select class="form-control" id="ddlCountryEdit" name="countryid" required>
+                                                  <option value="">-SELECT-</option>
                                                   <option th:each="country : ${countries}"
                                                           th:value="${country.id}"
-                                                          th:text="${country.description}">
+                                                          th:text="${country.countryName}">
                                                   </option>
                                               </select>
                                           </div>

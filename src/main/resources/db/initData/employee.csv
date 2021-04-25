@@ -1,0 +1,2 @@
+id, address, city, countryid, date_of_birth, email, firstname, gender, initials, lastname, marital_status, mobile, othername, phone, photo, stateid, title, employeetypeid, hire_date, jobtitleid, username, about_me
+9, "", "", "2", "2021-04-12", "", "Martin", "MALE", "M. Z.", "Zlatkov", "orange", "", "", "", NULL, "4", "MALE", NULL, "2021-04-13", NULL, "jgeek", NULL

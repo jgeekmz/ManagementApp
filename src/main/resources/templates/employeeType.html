@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
   <meta charset="utf-8">
@@ -378,6 +378,19 @@
                       </ul>
                   </li>
 
+                  <li class="sub-menu" sec:authorize="hasRole('ADMIN')" >
+                      <a href="javascript:;" class="">
+                          <i class="icon_book"></i>
+                          <span  >Users</span>
+                          <span class="menu-arrow arrow_carrot-right"></span>
+                      </a>
+                      <ul class="sub" >
+                          <li><a class="" th:href="@{/users}">Registered Users</a></li>
+                          <li><a class="" th:href="@{/activations}">User Activation</a></li>
+                          <li><a class="" th:href="@{/usersReports}">Users Reports</a></li>
+                      </ul>
+                  </li>
+
                   <li class="sub-menu">
                       <a href="javascript:;" class="">
                           <i class="icon_book"></i>
@@ -457,6 +470,7 @@
   </section>
   <!-- container section end -->
 
+  <!--Modal Section -->
   <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <form th:action="@{/employeeTypes/addNew}" method="post">
           <div class="modal-dialog modal-lg" role="document">
